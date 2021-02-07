@@ -86,8 +86,10 @@ void AssimpMesh::Draw(ShaderProgram& shader) {
 		*/
 		string material = "material." + name + num;
 		//glUniform1f(glGetUniformLocation(shader.GetProgram(), material.c_str()), i); // Set texture to appropriate location in shader uniform 
-		shader.SetUniformSampler("material.diffuseMap", 0);
-
+		//shader.SetUniformSampler("material.diffuseMap", 0);
+		
+		// Set diffuse and specualar.
+		shader.SetUniformSampler(material.c_str(), i);
 
 		// Set other standard uniforms needed for shader.
 		shader.SetUniform("material.ambient", glm::vec3(0.1, 0.1, 0.1));

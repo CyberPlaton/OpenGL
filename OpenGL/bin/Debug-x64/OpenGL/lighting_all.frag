@@ -68,7 +68,8 @@ struct PointLight{
 
 struct Material{
 	vec3 ambient;
-	sampler2D diffuseMap;
+	sampler2D texture_diffuse1;
+	sampler2D texture_specular1;
 	vec3 specular;
 	float shininess;
 };
@@ -120,7 +121,7 @@ void main(){
 
 vec3 calculatePointLight(PointLight point_light, vec3 in_normal, vec3 frag_pos, vec3 view_dir){
 	
-	vec3 ambient = point_light.ambient * material.ambient* vec3(texture(material.diffuseMap, TexCoord)); // use here material.texture_diffuse1
+	vec3 ambient = point_light.ambient * material.ambient* vec3(texture(material.texture_diffuse1, TexCoord)); // use here material.texture_diffuse1
 
 	vec3 norm = normalize(Normal);
 
@@ -129,14 +130,25 @@ vec3 calculatePointLight(PointLight point_light, vec3 in_normal, vec3 frag_pos, 
 
 	float NDotL = max(dot(norm, lDir), 0.0f);
 
-	vec3 diffuse = point_light.diffuse * vec3(texture(material.diffuseMap, TexCoord))*NDotL; // use here material.texture_diffuse1
+	//vec3 diffuse = point_light.diffuse * vec3(texture(material.texture_diffuse1, TexCoord))*NDotL; // use here material.texture_diffuse1
+
+	// NEW for shading.
+	float diff = max(dot(norm, lDir), 0.0);
+	vec3 diffuse = point_light.diffuse * diff * vec3(texture(material.texture_diffuse1, TexCoord))*NDotL; // use here material.texture_diffuse1
+
 
 	vec3 viewDir = normalize(viewPos - frag_pos);
 
 	vec3 halfDir = normalize(lDir + viewDir);
 	float NDotH = max(dot(norm, halfDir), 0.0f);
 
-	vec3 specular = point_light.specular * point_light.specular* pow(NDotH, material.shininess); // use here material.texture_specular1
+	//vec3 specular = point_light.specular * point_light.specular* pow(NDotH, material.shininess); // use here material.texture_specular1
+	
+	// NEW for shading.
+	vec3 reflectDir = reflect(-lDir, norm);
+	float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
+	vec3 specular = point_light.specular * spec * vec3(texture(material.texture_specular1, TexCoord));
+
 
 	// Applying equation for point light.
 	float d = length(point_light.position - frag_pos); // magnitude between the 2 vecs.

@@ -246,6 +246,9 @@ int main(){
             lightMesh.SetBrightness(0.1f);
         }
 
+        // Move white light...
+        lightWhite.SetPosition(glm::vec3(0.0f, y, 0.0f));
+
         /*
         lightingShader.Use();
 
@@ -442,7 +445,7 @@ int main(){
         */
 
 
-        model = glm::translate(glm::mat4(), glm::vec3(5.0f, 5.0f, 5.0f)) * glm::scale(glm::mat4(), glm::vec3(1.0f, 1.0f, 1.0f)); 
+        model = glm::translate(glm::mat4(), glm::vec3(-2.0f, 3.0f, -2.0f)) * glm::scale(glm::mat4(), glm::vec3(1.0f, 1.0f, 1.0f)); 
         lightMesh.GetLightShader()->SetUniform("model", model);
 
         assModel->Draw(*lightMesh.GetLightShader());
