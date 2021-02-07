@@ -312,13 +312,14 @@ std::vector<Texture> AssimpModel::_loadMaterialTextures(aiMaterial* mat, aiTextu
 
 		mat->GetTexture(type, i, &str);
 
+
 		Texture texture;
 
 		// Store information about texture.
 		texture.ID = TextureFromFile(str.C_Str(), m_Directory);
 
 
-		if (texture.ID == -1) {
+		if (texture.ID == 0) {
 
 			cout << color(colors::RED);
 			cout << "Error Loading Texture \"" << str.C_Str() << "\" :\n" << white;
@@ -386,6 +387,6 @@ GLint TextureFromFile(const char* path, std::string directory, bool genMipMaps){
 		return textureID;
 	}
 	else {
-		return -1;
+		return 0;
 	}
 }
