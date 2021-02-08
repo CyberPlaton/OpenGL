@@ -18,7 +18,7 @@
 
 
 const char* APP_TITLE = "OpenGL Training";
-bool FULL_SCREEN = false;
+bool FULL_SCREEN = true;
 bool g_bFullLight = true;
 GLFWwindow* g_pWindow = NULL;
 int g_WindowHeight = 720;
