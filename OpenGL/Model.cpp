@@ -351,10 +351,32 @@ GLint TextureFromFile(const char* path, std::string directory, bool genMipMaps){
 	int w, h, cmp; // cmp = rgb or rgba etc.
 	GLuint textureID;
 
+	// Construct path and dir
+	std::string p = directory + "/" + std::string(path);
+
+
 	// Load image.
-	unsigned char* imgData = stbi_load(path, &w, &h, &cmp, STBI_rgb_alpha);
+	unsigned char* imgData = stbi_load(p.c_str(), &w, &h, &cmp, STBI_rgb_alpha);
 
 	if (imgData != NULL) {
+
+		// Invrt image orientation.
+		int byteWidth = w * 4;
+		unsigned char* top = NULL;
+		unsigned char* bottom = NULL;
+		unsigned char temp = NULL;
+		int halfHeight = h / 2;
+		for (int row = 0; row < halfHeight; row++) {
+			top = imgData + row * byteWidth;
+			bottom = imgData + (h - row - 1) * byteWidth;
+			for (int col = 0; col < byteWidth; col++) {
+				temp = *top;
+				*top = *bottom;
+				*bottom = temp;
+				top++;
+				bottom++;
+			}
+		}
 
 		// Create texture object.
 		glGenTextures(1, &textureID);

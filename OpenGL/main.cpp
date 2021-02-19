@@ -18,7 +18,7 @@
 
 
 const char* APP_TITLE = "OpenGL Training";
-bool FULL_SCREEN = true;
+bool FULL_SCREEN = false;
 bool g_bFullLight = true;
 GLFWwindow* g_pWindow = NULL;
 int g_WindowHeight = 720;
@@ -64,7 +64,7 @@ int main(){
 
 
     // Testing Assimp.
-    AssimpModel* assModel = new AssimpModel("backpack.obj");
+    AssimpModel* assModel = new AssimpModel("ships/fighter_1/fighter_1.obj");
 
     ShaderProgram basicShader;
     basicShader.LoadShaders("basic.vert", "basic.frag");
@@ -445,7 +445,7 @@ int main(){
         */
 
 
-        model = glm::translate(glm::mat4(), glm::vec3(-2.0f, 3.0f, -2.0f)) * glm::scale(glm::mat4(), glm::vec3(1.0f, 1.0f, 1.0f)); 
+        model = glm::translate(glm::mat4(), glm::vec3(-2.0f, 3.0f, -2.0f)) * glm::scale(glm::mat4(), glm::vec3(0.5f, 0.5f, 0.5f));
         lightMesh.GetLightShader()->SetUniform("model", model);
 
         assModel->Draw(*lightMesh.GetLightShader());
