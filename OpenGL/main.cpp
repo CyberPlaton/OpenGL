@@ -64,7 +64,7 @@ int main(){
 
 
     // Testing Assimp.
-    AssimpModel* assModel = new AssimpModel("ships/fighter_1/fighter_1.obj");
+    AssimpModel* assModel = new AssimpModel("ships/fighter_3/fighter_3.obj");
 
     ShaderProgram basicShader;
     basicShader.LoadShaders("basic.vert", "basic.frag");
