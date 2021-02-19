@@ -31,6 +31,13 @@ void AssimpMesh::Draw(ShaderProgram& shader) {
 
 	using namespace std;
 
+	Material sMaterialUniform;
+	sMaterialUniform.ambient = glm::vec3(0.1f, 0.1f, 0.1f);
+	sMaterialUniform.shininess = 32.0f;
+	GLuint diff;
+	GLuint spec;
+
+
 	GLuint diffuseNr = 1;
 	GLuint specularNr = 1;
 
@@ -48,15 +55,31 @@ void AssimpMesh::Draw(ShaderProgram& shader) {
 		if (name == "texture_diffuse") {
 
 			ss << diffuseNr++; // Save GLuint in stream
+
+
+			num = ss.str();
+			string material = "material." + name + num;
+
+			sMaterialUniform.diffuse = material;
+
+
+			shader.SetUniformSampler(material.c_str(), i);
+			glBindTexture(GL_TEXTURE_2D, m_Textures[i].ID); // Bind Texture for usage.
+			continue;
 		}
 		else if (name == "texture_specular") {
 
 			ss << specularNr;
+
+			num = ss.str();
+			string material = "material." + name + num;
+
+			sMaterialUniform.specular = material;
+		
+
+			shader.SetUniformSampler(material.c_str(), i);
+			glBindTexture(GL_TEXTURE_2D, m_Textures[i].ID); // Bind Texture for usage.
 		}
-
-		num = ss.str();
-
-
 
 		// Set uniform for shader..
 		// Should actually be done in texture class... TODO:
@@ -84,20 +107,21 @@ void AssimpMesh::Draw(ShaderProgram& shader) {
 		where "material.diffuseMap", 0
 		is what we set for shader, means the texture was in slot 0 and had a predefined name...
 		*/
-		string material = "material." + name + num;
+		
+
 		//glUniform1f(glGetUniformLocation(shader.GetProgram(), material.c_str()), i); // Set texture to appropriate location in shader uniform 
 		//shader.SetUniformSampler("material.diffuseMap", 0);
-		
-		// Set diffuse and specualar.
-		shader.SetUniformSampler(material.c_str(), i);
+
 
 		// Set other standard uniforms needed for shader.
-		shader.SetUniform("material.ambient", glm::vec3(0.1, 0.1, 0.1));
-		shader.SetUniform("material.specular", glm::vec3(1.0f, 1.0f, 1.0f)); // For specular we can set our texture?
-		shader.SetUniform("material.shininess", 32.0f);
+		//shader.SetUniform("material.ambient", glm::vec3(0.1, 0.1, 0.1));
+		//shader.SetUniform("material.specular", glm::vec3(1.0f, 1.0f, 1.0f)); // For specular we can set our texture?
+		//shader.SetUniform("material.shininess", 32.0f);
+		shader.SetUniform("material.ambient", sMaterialUniform.ambient);
+		shader.SetUniform("material.shininess", sMaterialUniform.shininess);
 
 
-		glBindTexture(GL_TEXTURE_2D, m_Textures[i].ID); // Bind Texture for usage.
+		//glBindTexture(GL_TEXTURE_2D, m_Textures[i].ID); // Bind Texture for usage.
 	}
 
 	glActiveTexture(GL_TEXTURE0); // Deactivate..

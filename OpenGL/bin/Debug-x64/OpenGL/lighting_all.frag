@@ -70,7 +70,7 @@ struct Material{
 	vec3 ambient;
 	sampler2D texture_diffuse1;
 	sampler2D texture_specular1;
-	vec3 specular;
+	//vec3 specular;
 	float shininess;
 };
 

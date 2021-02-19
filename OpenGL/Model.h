@@ -17,6 +17,7 @@
 #include"Texture2D.h"
 
 
+
 GLint TextureFromFile(const char* path, std::string directory, bool genMipMaps = true);
 
 struct Vertex3 {
@@ -30,6 +31,16 @@ struct Texture {
 	GLuint ID;
 	std::string Type;
 	std::string Path;
+};
+
+
+struct Material {
+
+	glm::vec3 ambient;
+	std::string diffuse;
+	std::string specular;
+	float shininess;
+
 };
 
 
