@@ -64,7 +64,10 @@ int main(){
 
 
     // Testing Assimp.
-    AssimpModel* assModel = new AssimpModel("ships/fighter_3/fighter_3.obj");
+    AssimpModel* assModel = new AssimpModel("ships/fighter_1/fighter_1.obj");
+    AssimpModel* assModel2 = new AssimpModel("ships/fighter_2/fighter_2.obj");
+    AssimpModel* assModel3 = new AssimpModel("ships/fighter_3/fighter_3.obj");
+
 
     ShaderProgram basicShader;
     basicShader.LoadShaders("basic.vert", "basic.frag");
@@ -449,6 +452,16 @@ int main(){
         lightMesh.GetLightShader()->SetUniform("model", model);
 
         assModel->Draw(*lightMesh.GetLightShader());
+
+        model = glm::translate(glm::mat4(), glm::vec3(-10.0f, 3.0f, -2.0f)) * glm::scale(glm::mat4(), glm::vec3(0.5f, 0.5f, 0.5f));
+        lightMesh.GetLightShader()->SetUniform("model", model);
+
+        assModel2->Draw(*lightMesh.GetLightShader());
+        
+        model = glm::translate(glm::mat4(), glm::vec3(20.0f, 3.0f, -2.0f)) * glm::scale(glm::mat4(), glm::vec3(0.5f, 0.5f, 0.5f));
+        lightMesh.GetLightShader()->SetUniform("model", model);
+        assModel3->Draw(*lightMesh.GetLightShader());
+
        
        
         /*
