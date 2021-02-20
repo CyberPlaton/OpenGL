@@ -6,6 +6,9 @@ layout(location = 1) in vec3 normal; // Normals.
 
 layout (location = 2) in vec2 texCoord; // Texture.
 
+layout (location = 3) in vec2 tangents; // tagns.
+
+layout (location = 4) in vec2 bitangents; // bitangs.
 
 
 uniform mat4 model; // Matrices...

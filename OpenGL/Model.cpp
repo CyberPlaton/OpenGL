@@ -187,6 +187,15 @@ void AssimpMesh::_setup() {
 	glEnableVertexAttribArray(2);
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex3), (GLvoid*)offsetof(Vertex3, TexCoords));
 
+	// Tangents
+	glEnableVertexAttribArray(3);
+	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex3), (GLvoid*)offsetof(Vertex3, Tangents));
+
+
+
+	// Bitangents
+	glEnableVertexAttribArray(4);
+	glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex3), (GLvoid*)offsetof(Vertex3, Bitangents));
 
 
 	glBindVertexArray(0); // Unbind.
@@ -206,7 +215,7 @@ void AssimpModel::_loadModel(std::string path) {
 
 	Assimp::Importer import;
 	//const aiScene* scene = import.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs);
-	const aiScene* scene = import.ReadFile(path, aiProcess_Triangulate);
+	const aiScene* scene = import.ReadFile(path, aiProcess_Triangulate | aiProcess_CalcTangentSpace);
 
 
 	if (!scene) {
@@ -299,6 +308,28 @@ AssimpMesh AssimpModel::_processMesh(aiMesh* mesh, const aiScene* scene) {
 		}
 		else {
 			vertex.TexCoords = glm::vec2(0.0f);
+		}
+
+
+		// Tangents and Bitangents.
+		if (mesh->mTangents) {
+
+			glm::vec3 tang;
+			glm::vec3 bitang;
+
+			aiVector3D aiVec; aiVec = mesh->mTangents[i];
+			aiVector3D aiVec2; aiVec2 = mesh->mBitangents[i];
+
+			tang.x = aiVec.x;
+			tang.y = aiVec.y;
+			tang.z = aiVec.z;
+			
+			bitang.x = aiVec2.x;
+			bitang.y = aiVec2.y;
+			bitang.z = aiVec2.z;
+
+			vertex.Tangents = tang;
+			vertex.Bitangents = bitang;
 		}
 
 
