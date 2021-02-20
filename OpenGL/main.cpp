@@ -18,7 +18,7 @@
 
 
 const char* APP_TITLE = "OpenGL Training";
-bool FULL_SCREEN = false;
+bool FULL_SCREEN = true;
 bool g_bFullLight = true;
 GLFWwindow* g_pWindow = NULL;
 int g_WindowHeight = 720;
@@ -67,6 +67,9 @@ int main(){
     AssimpModel* assModel = new AssimpModel("ships/fighter_1/fighter_1.obj");
     AssimpModel* assModel2 = new AssimpModel("ships/fighter_2/fighter_2.obj");
     AssimpModel* assModel3 = new AssimpModel("ships/fighter_3/fighter_3.obj");
+    AssimpModel* assModel4 = new AssimpModel("ships/fighter_4/fighter_4.obj");
+    AssimpModel* assModel5 = new AssimpModel("ships/fighter_5/fighter_5.obj");
+
 
 
     ShaderProgram basicShader;
@@ -350,143 +353,48 @@ int main(){
         lightMesh.GetLightShader()->SetUniform("pointLight[3].brightness", lightWhite.GetBrightness()); // Send color defs. to shader.
 
 
-        /*
-        lightMesh.GetLightShader()->SetUniform("pointLight[1].ambient", glm::vec3(0.1, 0.1, 0.1)); // Send color defs. to shader.
-        lightMesh.GetLightShader()->SetUniform("pointLight[1].diffuse", lightsColor[0]); // Send color defs. to shader.
-        lightMesh.GetLightShader()->SetUniform("pointLight[1].specular", glm::vec3(1.0, 1.0, 1.0)); // Send color defs. to shader
-        lightMesh.GetLightShader()->SetUniform("pointLight[1].position", lightsPos[0]); // Send color defs. to shader.
-        lightMesh.GetLightShader()->SetUniform("pointLight[1].constant", 1.0f); // Send color defs. to shader.
-        lightMesh.GetLightShader()->SetUniform("pointLight[1].linear", 0.07f); // Send color defs. to shader.
-        lightMesh.GetLightShader()->SetUniform("pointLight[1].quadratic", 0.017f); // Send color defs. to shader.
-        lightMesh.GetLightShader()->SetUniform("pointLight[1].brightness", 1); // Send color defs. to shader.
-
-        lightMesh.GetLightShader()->SetUniform("pointLight[2].ambient", glm::vec3(0.1, 0.1, 0.1)); // Send color defs. to shader.
-        lightMesh.GetLightShader()->SetUniform("pointLight[2].diffuse", lightsColor[1]); // Send color defs. to shader.
-        lightMesh.GetLightShader()->SetUniform("pointLight[2].specular", glm::vec3(1.0, 1.0, 1.0)); // Send color defs. to shader
-        lightMesh.GetLightShader()->SetUniform("pointLight[2].position", lightsPos[1]); // Send color defs. to shader.
-        lightMesh.GetLightShader()->SetUniform("pointLight[2].constant", 1.0f); // Send color defs. to shader.
-        lightMesh.GetLightShader()->SetUniform("pointLight[2].linear", 0.027f); // Send color defs. to shader.
-        lightMesh.GetLightShader()->SetUniform("pointLight[2].quadratic", 0.0028f); // Send color defs. to shader.
-        lightMesh.GetLightShader()->SetUniform("pointLight[2].brightness", 1); // Send color defs. to shader.
-
-        lightMesh.GetLightShader()->SetUniform("pointLight[3].ambient", glm::vec3(0.1, 0.1, 0.1)); // Send color defs. to shader.
-        lightMesh.GetLightShader()->SetUniform("pointLight[3].diffuse", lightsColor[2]); // Send color defs. to shader.
-        lightMesh.GetLightShader()->SetUniform("pointLight[3].specular", glm::vec3(1.0, 1.0, 1.0)); // Send color defs. to shader
-        lightMesh.GetLightShader()->SetUniform("pointLight[3].position", lightsPos[2]); // Send color defs. to shader.
-        lightMesh.GetLightShader()->SetUniform("pointLight[3].constant", 1.0f); // Send color defs. to shader.
-        lightMesh.GetLightShader()->SetUniform("pointLight[3].linear", 0.07f); // Send color defs. to shader.
-        lightMesh.GetLightShader()->SetUniform("pointLight[3].quadratic", 0.017f); // Send color defs. to shader.
-        lightMesh.GetLightShader()->SetUniform("pointLight[3].brightness", 1); // Send color defs. to shader.
-        */
-
-
-        // Draw models.
-        /*
-        for (int i = 0; i < numModels; i++) {
-
-            model = glm::translate(glm::mat4(), modelPos[i]) * glm::scale(glm::mat4(), modelScale[i]); // First matrix is identity.
-            lightMesh.GetLightShader()->SetUniform("model", model);
 
 
 
-            switch (i) {
-            case 0:
-                // Material struct for shader...
-                lightMesh.GetLightShader()->SetUniform("material.ambient", glm::vec3(0.1, 0.1, 0.1));
-                lightMesh.GetLightShader()->SetUniformSampler("material.diffuseMap", 0); // Diffusemap to slot 0. Setting slot needed for setting multuple textures...
-                lightMesh.GetLightShader()->SetUniform("material.specular", glm::vec3(1.0f, 1.0f, 1.0f));
-                lightMesh.GetLightShader()->SetUniform("material.shininess", 128.0f);
-                break;
-
-            case 1:
-                // Material struct for shader...
-                lightMesh.GetLightShader()->SetUniform("material.ambient", glm::vec3(0.1, 0.1, 0.1));
-                lightMesh.GetLightShader()->SetUniformSampler("material.diffuseMap", 0); // Diffusemap to slot 0. Setting slot needed for setting multuple textures...
-                lightMesh.GetLightShader()->SetUniform("material.specular", glm::vec3(0.2f, 0.2f, 0.2f));
-                lightMesh.GetLightShader()->SetUniform("material.shininess", 16.0f);
-                break;
-
-            case 2:
-                // Material struct for shader...
-                lightMesh.GetLightShader()->SetUniform("material.ambient", glm::vec3(0.1, 0.1, 0.1));
-                lightMesh.GetLightShader()->SetUniformSampler("material.diffuseMap", 0); // Diffusemap to slot 0. Setting slot needed for setting multuple textures...
-                lightMesh.GetLightShader()->SetUniform("material.specular", glm::vec3(0.5f, 0.5f, 0.5f));
-                lightMesh.GetLightShader()->SetUniform("material.shininess", 32.0f);
-                break;
-
-            case 3:
-                // Material struct for shader...
-                lightMesh.GetLightShader()->SetUniform("material.ambient", glm::vec3(0.1, 0.1, 0.1));
-                lightMesh.GetLightShader()->SetUniformSampler("material.diffuseMap", 0); // Diffusemap to slot 0. Setting slot needed for setting multuple textures...
-                lightMesh.GetLightShader()->SetUniform("material.specular", glm::vec3(1.0f, 1.0f, 1.0f));
-                lightMesh.GetLightShader()->SetUniform("material.shininess", 16.0f);
-                break;
-
-            default:
-            if (i < 2) {
-
-                // Material struct for shader...
-                lightMesh.GetLightShader()->SetUniform("material.ambient", glm::vec3(0.5, 0.5, 0.5));
-                lightMesh.GetLightShader()->SetUniformSampler("material.diffuseMap", 0); // Diffusemap to slot 0. Setting slot needed for setting multuple textures...
-                lightMesh.GetLightShader()->SetUniform("material.specular", glm::vec3(0.2f, 0.2f, 0.2f));
-                lightMesh.GetLightShader()->SetUniform("material.shininess", 1.0f);
-            }
-            else {
-
-                // Material struct for shader...
-                lightMesh.GetLightShader()->SetUniform("material.ambient", glm::vec3(0.2, 0.2, 0.2));
-                lightMesh.GetLightShader()->SetUniformSampler("material.diffuseMap", 0); // Diffusemap to slot 0. Setting slot needed for setting multuple textures...
-                lightMesh.GetLightShader()->SetUniform("material.specular", glm::vec3(0.5f, 0.5f, 0.5f));
-                lightMesh.GetLightShader()->SetUniform("material.shininess", 64.0f);
-                break;
-            }
 
 
-            // Draw.
-            mesh[i].DrawMesh();
-        }
-        */
+        lightMesh.GetLightShader()->SetUniform("mainLightPos", lightMesh.GetPosition());
+        model = glm::translate(glm::mat4(), glm::vec3(5.0f, 0.0f, -5.0f)) * glm::scale(glm::mat4(), glm::vec3(0.5f, 0.5f, 0.5f));
+        lightMesh.GetLightShader()->SetUniform("model", model);
+        assModel5->Draw(*lightMesh.GetLightShader());
 
 
+
+        lightMesh.GetLightShader()->SetUniform("mainLightPos", lightMesh.GetPosition());
         model = glm::translate(glm::mat4(), glm::vec3(-2.0f, 3.0f, -2.0f)) * glm::scale(glm::mat4(), glm::vec3(0.5f, 0.5f, 0.5f));
         lightMesh.GetLightShader()->SetUniform("model", model);
-        lightMesh.GetLightShader()->SetUniform("mainLightPos", lightMesh.GetPosition());
-
         assModel->Draw(*lightMesh.GetLightShader());
 
+
+        lightMesh.GetLightShader()->SetUniform("mainLightPos", lightMesh.GetPosition());
         model = glm::translate(glm::mat4(), glm::vec3(-10.0f, 3.0f, -2.0f)) * glm::scale(glm::mat4(), glm::vec3(0.5f, 0.5f, 0.5f));
         lightMesh.GetLightShader()->SetUniform("model", model);
-
         assModel2->Draw(*lightMesh.GetLightShader());
         
+
+
+        lightMesh.GetLightShader()->SetUniform("mainLightPos", lightMesh.GetPosition());
         model = glm::translate(glm::mat4(), glm::vec3(20.0f, 3.0f, -2.0f)) * glm::scale(glm::mat4(), glm::vec3(0.5f, 0.5f, 0.5f));
         lightMesh.GetLightShader()->SetUniform("model", model);
         assModel3->Draw(*lightMesh.GetLightShader());
 
        
-       
-        /*
-            // Draw.
-            texture[i].Bind(0);
-            mesh[i].DrawMesh();
-            texture[i].Unbind();
-        */
+        lightMesh.GetLightShader()->SetUniform("mainLightPos", lightMesh.GetPosition());
+        model = glm::translate(glm::mat4(), glm::vec3(0.0f, 0.0f, 0.0f)) * glm::scale(glm::mat4(), glm::vec3(0.5f, 0.5f, 0.5f));
+        lightMesh.GetLightShader()->SetUniform("model", model);
+        assModel4->Draw(*lightMesh.GetLightShader());
 
 
-        /*
-        // Draw light.
-        model = glm::translate(glm::mat4(), lightPos) * glm::scale(glm::mat4(), lightScale);
-        lightShader.Use();
 
-        // Set uniforms.
-        lightShader.SetUniform("lightColor", lightColor);
 
-        lightShader.SetUniform("model", model);
-        lightShader.SetUniform("view", view);
-        lightShader.SetUniform("projection", projection);
 
-        lightMesh.DrawMesh();
-        */
+
+
 
         lightMesh.Draw(projection, view, viewPos);
         lightRed.Draw(projection, view, viewPos);
