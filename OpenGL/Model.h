@@ -39,6 +39,7 @@ struct Material {
 	glm::vec3 ambient;
 	std::string diffuse;
 	std::string specular;
+	std::string normal;
 	float shininess;
 
 };
@@ -70,7 +71,14 @@ private:
 
 class AssimpModel{
 public:
-	AssimpModel(const std::string& path) { _loadModel(path); }
+	AssimpModel(const std::string& path, bool normalMap = true) {
+
+		if (normalMap) {
+			m_HasNormalMap = true;
+		};
+
+		_loadModel(path);
+	}
 
 	// Setting shader dynamically for drawing may help
 	// try out different shader for optimizing FPS...
@@ -80,6 +88,8 @@ private:
 	std::vector<AssimpMesh> m_Meshes;
 	std::string m_Directory;
 
+	bool m_HasNormalMap = false;
+	bool m_NormalLoaded = false;
 
 private:
 

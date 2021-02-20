@@ -70,6 +70,7 @@ struct Material{
 	vec3 ambient;
 	sampler2D texture_diffuse1;
 	sampler2D texture_specular1;
+	sampler2D texture_normal1;
 	//vec3 specular;
 	float shininess;
 };
@@ -92,6 +93,10 @@ vec3 calculatePointLightFresnelFactor(PointLight point_light, vec3 in_normal, ve
 
 
 void main(){
+
+	
+	//vec3 Normal = vec3(texture(material.texture_diffuse1, TexCoord));
+	//Normal = normalize(Normal*2.0 - 1.0);
 
 	// Check for Fog: if it is dominating, apply and return.
 	if(fogAmount >= 1.0f){
@@ -122,7 +127,9 @@ vec3 calculatePointLightFresnelFactor(PointLight point_light, vec3 in_normal, ve
 	
 	vec3 ambient = point_light.ambient * material.ambient* vec3(texture(material.texture_diffuse1, TexCoord)); // use here material.texture_diffuse1
 
-	vec3 norm = normalize(Normal);
+	vec3 norm = vec3(texture(material.texture_normal1, TexCoord));
+	norm = normalize(norm);
+	//norm = normalize(Normal);
 
 	vec3 lDir = normalize(point_light.position - frag_pos);
 

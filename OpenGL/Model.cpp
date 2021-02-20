@@ -34,12 +34,13 @@ void AssimpMesh::Draw(ShaderProgram& shader) {
 	Material sMaterialUniform;
 	sMaterialUniform.ambient = glm::vec3(0.1f, 0.1f, 0.1f);
 	sMaterialUniform.shininess = 32.0f;
-	GLuint diff;
-	GLuint spec;
+	//GLuint diff;
+	//GLuint spec;
 
 
 	GLuint diffuseNr = 1;
 	GLuint specularNr = 1;
+	GLuint normalNr = 1;
 
 	for (GLuint i = 0; i < m_Textures.size(); i++) {
 
@@ -79,7 +80,26 @@ void AssimpMesh::Draw(ShaderProgram& shader) {
 
 			shader.SetUniformSampler(material.c_str(), i);
 			glBindTexture(GL_TEXTURE_2D, m_Textures[i].ID); // Bind Texture for usage.
+			continue;
 		}
+		else if (name == "texture_normal") {
+
+			ss << normalNr;
+
+			num = ss.str();
+			string material = "material." + name + num;
+
+			sMaterialUniform.normal = material;
+
+
+			shader.SetUniformSampler(material.c_str(), i);
+			glBindTexture(GL_TEXTURE_2D, m_Textures[i].ID); // Bind Texture for usage.
+			continue;
+		}
+
+
+
+
 
 		// Set uniform for shader..
 		// Should actually be done in texture class... TODO:
@@ -359,6 +379,29 @@ std::vector<Texture> AssimpModel::_loadMaterialTextures(aiMaterial* mat, aiTextu
 
 
 		textures.push_back(texture);
+	}
+
+	// Custom loading for a normal map.
+	if (m_HasNormalMap && m_NormalLoaded == false) {
+
+		Texture tex;
+		tex.ID = TextureFromFile("normal.png", m_Directory);
+		if (tex.ID == 0) {
+
+			cout << color(colors::RED);
+			cout << "Error Loading Texture \"" << "normal.png" << "\" :\n" << white;
+			cout << "Dir: \"" << m_Directory << "\" .\n" << white;
+
+		}
+		cout << color(colors::GREEN);
+		cout << "Texture \"" << "normal.png" << "\" Loaded!\n" << white;
+
+
+		tex.Type = "texture_normal";
+		tex.Path = "normal.png";
+
+		textures.push_back(tex);
+		m_NormalLoaded = true;
 	}
 
 	return textures;
