@@ -132,10 +132,14 @@ vec3 calculatePointLightFresnelFactor(PointLight point_light, vec3 in_normal, ve
 	vec3 ambient = point_light.ambient * material.ambient* vec3(texture(material.texture_diffuse1, TexCoord)); // use here material.texture_diffuse1
 
 	vec3 norm = vec3(texture(material.texture_normal1, TexCoord));
-	norm = normalize(norm);
+	norm = normalize(norm*2.0 - 1.0);
 	//norm = normalize(Normal);
 
-	vec3 lDir = normalize(point_light.position - frag_pos);
+	//vec3 lDir = normalize(point_light.position - frag_pos);
+	//vec3 lDir = normalize(point_light.position - TangentFragPos); // new
+
+	// In the game we define one main light, which position we here take as input.
+	vec3 lDir = normalize(TangentLightPos - TangentFragPos); // new
 
 
 	float NDotL = max(dot(norm, lDir), 0.0f);
@@ -147,7 +151,8 @@ vec3 calculatePointLightFresnelFactor(PointLight point_light, vec3 in_normal, ve
 	vec3 diffuse = point_light.diffuse * diff * vec3(texture(material.texture_diffuse1, TexCoord))*NDotL; // use here material.texture_diffuse1
 
 
-	vec3 viewDir = normalize(viewPos - frag_pos);
+	//vec3 viewDir = normalize(viewPos - frag_pos);
+	vec3 viewDir = normalize(TangentViewPos - TangentFragPos); // new 
 
 	vec3 halfDir = normalize(lDir + viewDir);
 	float NDotH = max(dot(norm, halfDir), 0.0f);
