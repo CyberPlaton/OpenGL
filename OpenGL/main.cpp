@@ -450,6 +450,7 @@ int main(){
 
         model = glm::translate(glm::mat4(), glm::vec3(-2.0f, 3.0f, -2.0f)) * glm::scale(glm::mat4(), glm::vec3(0.5f, 0.5f, 0.5f));
         lightMesh.GetLightShader()->SetUniform("model", model);
+        lightMesh.GetLightShader()->SetUniform("mainLightPos", lightMesh.GetPosition());
 
         assModel->Draw(*lightMesh.GetLightShader());
 

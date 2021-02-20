@@ -6,9 +6,9 @@ layout(location = 1) in vec3 normal; // Normals.
 
 layout (location = 2) in vec2 texCoord; // Texture.
 
-layout (location = 3) in vec2 tangents; // tagns.
+layout (location = 3) in vec3 tangents; // tagns.
 
-layout (location = 4) in vec2 bitangents; // bitangs.
+layout (location = 4) in vec3 bitangents; // bitangs.
 
 
 uniform mat4 model; // Matrices...
@@ -28,6 +28,14 @@ out vec3 FragPos;
 
 out float fogAmount;
 
+// For normal and tangents.
+uniform vec3 mainLightPos;
+
+out vec3 TangentLightPos;
+out vec3 TangentViewPos;
+out vec3 TangentFragPos;
+
+
 void main()
 {
 	Normal = normal;
@@ -43,4 +51,17 @@ void main()
 
 	// Calculate its fog amount.
 	fogAmount = clamp(( distance(worldPos, CameraPosition) - FogStart), 0.0f, 1.0f);
+
+
+	mat3 normMatrix = transpose(inverse(mat3(model)));
+	vec3 T  = normalize(normMatrix*tangents);
+	vec3 N = normalize(normMatrix*normal);
+	T = normalize(T - dot(T, N)*N);
+	vec3 B = cross(N, T);
+
+	mat3 TBN = transpose(mat3(T, B, N));
+
+	TangentLightPos = TBN*mainLightPos;
+	TangentViewPos = TBN * CameraPosition;
+	TangentFragPos = TBN * FragPos;
 };

@@ -86,6 +86,10 @@ uniform int lightsInScene;
 
 uniform Material material;
 
+// For normal and tangents
+in vec3 TangentLightPos;
+in vec3 TangentViewPos;
+in vec3 TangentFragPos;
 
 vec3 calculatePointLight(PointLight point_light, vec3 in_normal, vec3 frag_pos, vec3 view_dir);
 
