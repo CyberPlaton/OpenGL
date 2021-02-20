@@ -34,8 +34,6 @@ void AssimpMesh::Draw(ShaderProgram& shader) {
 	Material sMaterialUniform;
 	sMaterialUniform.ambient = glm::vec3(0.1f, 0.1f, 0.1f);
 	sMaterialUniform.shininess = 32.0f;
-	//GLuint diff;
-	//GLuint spec;
 
 
 	GLuint diffuseNr = 1;
@@ -45,6 +43,11 @@ void AssimpMesh::Draw(ShaderProgram& shader) {
 	for (GLuint i = 0; i < m_Textures.size(); i++) {
 
 		glActiveTexture(GL_TEXTURE0 + i); // Activate current texture.
+
+
+
+		shader.SetUniform("material.ambient", sMaterialUniform.ambient);
+		shader.SetUniform("material.shininess", sMaterialUniform.shininess);
 
 
 		// Retrieve Textures number..
@@ -137,8 +140,6 @@ void AssimpMesh::Draw(ShaderProgram& shader) {
 		//shader.SetUniform("material.ambient", glm::vec3(0.1, 0.1, 0.1));
 		//shader.SetUniform("material.specular", glm::vec3(1.0f, 1.0f, 1.0f)); // For specular we can set our texture?
 		//shader.SetUniform("material.shininess", 32.0f);
-		shader.SetUniform("material.ambient", sMaterialUniform.ambient);
-		shader.SetUniform("material.shininess", sMaterialUniform.shininess);
 
 
 		//glBindTexture(GL_TEXTURE_2D, m_Textures[i].ID); // Bind Texture for usage.
@@ -332,6 +333,9 @@ AssimpMesh AssimpModel::_processMesh(aiMesh* mesh, const aiScene* scene) {
 		// Specular.
 		vector<Texture> specularMaps = _loadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular");
 		textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
+
+
+		// Normal
 	}
 
 
