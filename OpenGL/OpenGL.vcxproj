@@ -88,6 +88,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="Mesh.cpp" />
@@ -97,6 +98,7 @@
     <ClCompile Include="Texture2D.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Sprite.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="ColorConsole.h" />
     <ClInclude Include="Light.h" />
@@ -118,6 +120,8 @@
     <None Include="bin\Debug-x64\OpenGL\lighting_point.vert" />
     <None Include="bin\Debug-x64\OpenGL\lighting_spot.frag" />
     <None Include="bin\Debug-x64\OpenGL\lighting_spot.vert" />
+    <None Include="bin\Debug-x64\OpenGL\shaderTexture.frag" />
+    <None Include="bin\Debug-x64\OpenGL\shaderTexture.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -15,10 +15,11 @@
 //#include"Mesh.h"
 #include"Light.h"
 #include"Model.h"
+#include"Sprite.h"
 
 
 const char* APP_TITLE = "OpenGL Training";
-bool FULL_SCREEN = true;
+bool FULL_SCREEN = false;
 bool g_bFullLight = true;
 GLFWwindow* g_pWindow = NULL;
 int g_WindowHeight = 720;
@@ -48,6 +49,8 @@ void KeyInputCallback(GLFWwindow* wnd, int key, int scancode, int action, int mo
 void OnWindowResize(GLFWwindow* wnd, int width, int height);
 void ShowFPS(GLFWwindow* wnd);
 bool InitOpenGL();
+void render2DScene();
+void render3DScene();
 
 
 
@@ -75,6 +78,7 @@ int main(){
     ShaderProgram basicShader;
     basicShader.LoadShaders("basic.vert", "basic.frag");
     
+    Sprite* billboard = new Sprite("shaderTexture", "particle.png");
 
     // Cretae mesh models.
     /*
@@ -208,8 +212,7 @@ int main(){
         Update(deltaTime); // Get input first then update.
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear screen and depth buffer.
-
-
+        glEnable(GL_DEPTH_TEST);
 
         // Rotate cube.
        // Create matrices for shader.
@@ -359,27 +362,27 @@ int main(){
 
 
         lightMesh.GetLightShader()->SetUniform("mainLightPos", lightMesh.GetPosition());
-        model = glm::translate(glm::mat4(), glm::vec3(5.0f, 0.0f, -5.0f)) * glm::scale(glm::mat4(), glm::vec3(0.5f, 0.5f, 0.5f));
+        model = glm::translate(glm::mat4(), glm::vec3(5.0f, 0.0f, 0.0f)) * glm::scale(glm::mat4(), glm::vec3(0.5f, 0.5f, 0.5f));
         lightMesh.GetLightShader()->SetUniform("model", model);
         assModel5->Draw(*lightMesh.GetLightShader());
 
 
 
         lightMesh.GetLightShader()->SetUniform("mainLightPos", lightMesh.GetPosition());
-        model = glm::translate(glm::mat4(), glm::vec3(-2.0f, 3.0f, -2.0f)) * glm::scale(glm::mat4(), glm::vec3(0.5f, 0.5f, 0.5f));
+        model = glm::translate(glm::mat4(), glm::vec3(-2.0f, 3.0f, 0.0f)) * glm::scale(glm::mat4(), glm::vec3(0.5f, 0.5f, 0.5f));
         lightMesh.GetLightShader()->SetUniform("model", model);
         assModel->Draw(*lightMesh.GetLightShader());
 
 
         lightMesh.GetLightShader()->SetUniform("mainLightPos", lightMesh.GetPosition());
-        model = glm::translate(glm::mat4(), glm::vec3(-10.0f, 3.0f, -2.0f)) * glm::scale(glm::mat4(), glm::vec3(0.5f, 0.5f, 0.5f));
+        model = glm::translate(glm::mat4(), glm::vec3(-10.0f, 3.0f, 0.0f)) * glm::scale(glm::mat4(), glm::vec3(0.5f, 0.5f, 0.5f));
         lightMesh.GetLightShader()->SetUniform("model", model);
         assModel2->Draw(*lightMesh.GetLightShader());
         
 
 
         lightMesh.GetLightShader()->SetUniform("mainLightPos", lightMesh.GetPosition());
-        model = glm::translate(glm::mat4(), glm::vec3(20.0f, 3.0f, -2.0f)) * glm::scale(glm::mat4(), glm::vec3(0.5f, 0.5f, 0.5f));
+        model = glm::translate(glm::mat4(), glm::vec3(20.0f, 3.0f, 0.0f)) * glm::scale(glm::mat4(), glm::vec3(0.5f, 0.5f, 0.5f));
         lightMesh.GetLightShader()->SetUniform("model", model);
         assModel3->Draw(*lightMesh.GetLightShader());
 
@@ -391,16 +394,22 @@ int main(){
 
 
 
-
-
-
-
-
         lightMesh.Draw(projection, view, viewPos);
         lightRed.Draw(projection, view, viewPos);
         lightGreen.Draw(projection, view, viewPos);
         lightWhite.Draw(projection, view, viewPos);
 
+
+
+        // Special for drawing 2D.
+        render2DScene();
+
+        billboard->SetPosition(glm::vec2(0.0f, 1.0f));
+        billboard->Draw();
+
+
+        // Go back to drawing 3D.
+        render3DScene();
 
 
         glfwSwapBuffers(g_pWindow); // Double buffered application.
@@ -648,4 +657,28 @@ void Update(double d){
         g_pFPSCamera.Move(MOVE_SPEED * (float)(d) * -g_pFPSCamera.GetUp());
     }
 
+}
+
+
+void render2DScene(){
+
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_BLEND);
+    glDisable(GL_CULL_FACE);
+    glDisable(GL_DEPTH_TEST);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glOrtho(0.0f, g_WindowWidth - 1.0, 0.0, g_WindowHeight - 1.0, -1.0, 1000.0);
+    glMatrixMode(GL_MODELVIEW);
+    glPushMatrix();
+    glLoadIdentity();
+}
+
+
+void render3DScene(){
+
+    glCullFace(GL_BACK);
+    glEnable(GL_CULL_FACE);
+    glEnable(GL_DEPTH_TEST);
+    glDisable(GL_BLEND);
 }

@@ -36,6 +36,9 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Sprite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -57,6 +60,9 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="Texture2D.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprite.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -95,6 +101,12 @@
       <Filter>Source Files</Filter>
     </None>
     <None Include="bin\Debug-x64\OpenGL\lighting_spot.vert">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="bin\Debug-x64\OpenGL\shaderTexture.frag">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="bin\Debug-x64\OpenGL\shaderTexture.vert">
       <Filter>Source Files</Filter>
     </None>
   </ItemGroup>
