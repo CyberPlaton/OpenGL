@@ -16,6 +16,7 @@
 #include"Light.h"
 #include"Model.h"
 #include"Sprite.h"
+#include"ParticleSystem.h"
 
 
 const char* APP_TITLE = "OpenGL Training";
@@ -197,7 +198,18 @@ int main(){
 
 
 
-
+    // Testing particle system.
+    ParticleSystem* particleSystem = new ParticleSystem(billboard);
+    ParticleData* particleData = new ParticleData();
+    particleData->m_ColorBegin = glm::vec4(1.0f, 1.0f, 0.2f, 1.0f);
+    particleData->m_ColorEnd = glm::vec4(0.0f, 0.0f, 0.2f, 1.0f);
+    particleData->m_LifeTime = 10.0f;
+    particleData->m_Position = glm::vec2(0.0f);
+    particleData->m_SizeBegin = 0.1f;
+    particleData->m_SizeEnd = 0.01f;
+    particleData->m_SizeVariation = 0.1f;
+    particleData->m_Velocity = glm::vec2(-1.0f, 0.0f);
+    particleData->m_VelocityVariation = glm::vec2(0.5f, 1.0f);
 
 
     // Light rotation
@@ -433,6 +445,17 @@ int main(){
         assassin->SetScale(0.2f);
         assassin->SetPosition(glm::vec2(0.5f, 0.5f));
         assassin->Draw();
+
+
+
+        particleSystem->onUpdate(1/60.0f, g_pFPSCamera.GetPos());
+        for (int i = 0; i < 10; i++) {
+            particleData->m_Position = assassin->m_Position;
+            particleSystem->emit(*particleData);
+        }
+        particleSystem->onRender();
+
+
 
         // Go back to drawing 3D.
         render3DScene();

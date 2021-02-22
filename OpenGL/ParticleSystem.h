@@ -6,15 +6,7 @@
 #include<utility>
 
 
-#include<GL/glew.h>
-#include<glm/glm.hpp>
-#include<glm/gtc/matrix_transform.hpp>
-
-
-#include"ColorConsole.h"
-#include"ShaderProgram.h"
-#include<stb_image/stb_image.h>
-
+#include"Sprite.h"
 #include <random>
 
 class Random
@@ -33,29 +25,6 @@ public:
 private:
     static std::mt19937 s_RandomEngine;
     static std::uniform_int_distribution<std::mt19937::result_type> s_Distribution;
-};
-
-
-
-class Texture2D {
-public:
-
-    Texture2D();
-    ~Texture2D();
-
-
-    bool LoadTexture(const std::string& fileName, bool genMipMaps = true);
-    void Bind(GLuint texUint = 0);
-    void Unbind(GLuint texUint = 0);
-
-    GLuint GetTextureHandle() const { return m_TextureHandle; }
-
-private:
-
-    GLuint m_TextureHandle;
-
-private:
-
 };
 
 
@@ -87,64 +56,21 @@ public:
 
 
 public:
-    ParticleSystem(int screenwidth, int screenheight);
-
+    ParticleSystem(Sprite* sprite);
 
     void onUpdate(float dt, glm::vec3 camerPos);
 
-    void onRender(glm::mat4 projection, glm::mat4 view, ShaderProgram* shader);
+    void onRender();
 
     void emit(const ParticleData& props);
 
-    /*
-    ParticleSystem(std::string texturePath, unsigned int particleCount,
-        glm::vec4 color, glm::vec2 position, glm::vec2 velocity, float lifespan, float lifeVariance = 0);
-
-    void Update(glm::vec2 objectPos, float dt); // Includes drawing function.
-
-    void SetProjection(glm::mat4 proj) { m_Projection = proj; }
-    */
 private:
     std::vector<Particle> m_ParticlePool;
 
     uint32_t m_PoolIndex = 999;
 
-    GLuint m_QuadVAO = 0;
-    GLuint m_QuadVBO = 0;
+    Sprite* m_ParticleSprite = nullptr;
 
-
-    ShaderProgram* m_ParticleShader = nullptr;
-
-
-    glm::mat4 m_ProjectionMatrix;
-    glm::mat4 m_ViewProjectionMatrix;
-
-    /*
-    ShaderProgram* m_ParticleShader = nullptr;
-    std::string m_DefaultShaderVert = "particleShader.vert";
-    std::string m_DefaultShaderFrag = "particleShader.frag";
-
-    Texture2D* m_ParticleTexture = nullptr;
-
-    std::vector<ParticleData*> m_ParticlePool;
-
-    unsigned int m_ParticleCount = 0;
-
-    unsigned int m_LastUsedParticle = 0;
-
-    GLuint VAO;
-
-    glm::mat4 m_Projection;
-    */
 private:
 
-
-    /*
-    unsigned int _firstUnusedParticle();
-    void _respawnParticle(ParticleData& particle, glm::vec2& objectPos, glm::vec2 offset);
-
-    void _draw();
-
-    bool _loadShader();
-    */
 };
