@@ -408,16 +408,19 @@ int main(){
         // Special for drawing 2D.
         render2DScene();
 
-
+        billboard->SetScale(0.1f);
         billboard->SetPosition(glm::vec2(-1.0f, -1.0f));
         billboard->Draw();
 
+        spy->SetScale(0.1f);
         spy->SetPosition(glm::vec2(0.0f, 0.0f));
         spy->Draw();
 
+        paladin->SetScale(0.1f);
         paladin->SetPosition(glm::vec2(1.0f, 1.0f));
         paladin->Draw();
 
+        assassin->SetScale(0.1f);
         assassin->SetPosition(glm::vec2(2.0f, 2.0f));
         assassin->Draw();
 

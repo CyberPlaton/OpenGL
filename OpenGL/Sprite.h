@@ -48,9 +48,11 @@ public:
 	void Draw();
 
 	void SetPosition(glm::vec2 pos) { m_Position = pos; }
+	void SetScale(float s) { m_Scale = s; }
 private:
 	glm::vec2 m_Position;
 	glm::vec3 m_Color;
+	float m_Scale = 1.0f;
 	float m_Rotation = 0.0f;
 
 	Texture2D* m_SpriteTexture = nullptr;
