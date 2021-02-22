@@ -414,10 +414,11 @@ int main(){
         b = (b >= 1.0f) ? 0.0f : b += 0.01f;
 
 
+
         billboard->SetColor(glm::vec3(r, g, b));
         billboard->SetBrightness(0.5f);
         billboard->SetScale(0.5f);
-        billboard->SetPosition(glm::vec2(0.0f, 0.0f));
+        billboard->SetPosition(glm::vec2(-0.5f, -0.5f));
         billboard->Draw();
 
         spy->SetColor(glm::vec3(r, g, b));
