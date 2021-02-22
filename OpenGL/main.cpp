@@ -199,17 +199,18 @@ int main(){
 
 
     // Testing particle system.
-    ParticleSystem* particleSystem = new ParticleSystem(billboard);
+    Sprite* particleSprite = new Sprite("shaderTexture", "particle_texture.png");
+    ParticleSystem* particleSystem = new ParticleSystem(particleSprite);
     ParticleData* particleData = new ParticleData();
-    particleData->m_ColorBegin = glm::vec4(1.0f, 1.0f, 0.2f, 1.0f);
-    particleData->m_ColorEnd = glm::vec4(0.0f, 0.0f, 0.2f, 1.0f);
-    particleData->m_LifeTime = 10.0f;
+    particleData->m_ColorBegin = glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
+    particleData->m_ColorEnd = glm::vec4(0.0f, 0.0f, 1.0f, 1.0f);
+    particleData->m_LifeTime = 1.0f;
     particleData->m_Position = glm::vec2(0.0f);
-    particleData->m_SizeBegin = 0.1f;
-    particleData->m_SizeEnd = 0.01f;
-    particleData->m_SizeVariation = 0.1f;
-    particleData->m_Velocity = glm::vec2(-1.0f, 0.0f);
-    particleData->m_VelocityVariation = glm::vec2(0.5f, 1.0f);
+    particleData->m_SizeBegin = 0.01f;
+    particleData->m_SizeEnd = 0.001f;
+    particleData->m_SizeVariation = 0.05f;
+    particleData->m_Velocity = glm::vec2(-0.4f, 0.4f);
+    particleData->m_VelocityVariation = glm::vec2(0.03f, 0.03f);
 
 
     // Light rotation
@@ -449,7 +450,7 @@ int main(){
 
 
         particleSystem->onUpdate(1/60.0f, g_pFPSCamera.GetPos());
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 5; i++) {
             particleData->m_Position = assassin->m_Position;
             particleSystem->emit(*particleData);
         }

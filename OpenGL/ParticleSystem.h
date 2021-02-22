@@ -9,6 +9,8 @@
 #include"Sprite.h"
 #include <random>
 
+#include<glm/gtx/quaternion.hpp>
+
 class Random
 {
 public:

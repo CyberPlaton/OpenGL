@@ -43,7 +43,8 @@ void ParticleSystem::onRender() {
 
 		// Fade away particles
 		float life = particle.m_LifeRemaining / particle.m_LifeTime;
-		//glm::vec4 color = glm::lerp(particle.m_ColorEnd, particle.m_ColorBegin, life);
+
+
 		glm::vec4 color = glm::mix(particle.m_ColorEnd, particle.m_ColorBegin, life);
 		//color.a = color.a * life;
 
