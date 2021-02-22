@@ -80,6 +80,10 @@ int main(){
     
     Sprite* billboard = new Sprite("shaderTexture", "particle.png");
 
+    Sprite* spy = new Sprite("shaderTexture", "troll_spy.png");
+    Sprite* assassin = new Sprite("shaderTexture", "troll_assassin.png");
+    Sprite* paladin = new Sprite("shaderTexture", "troll_battlemage.png");
+
     // Cretae mesh models.
     /*
     const int numModels = 4;
@@ -404,9 +408,18 @@ int main(){
         // Special for drawing 2D.
         render2DScene();
 
-        billboard->SetPosition(glm::vec2(0.0f, 1.0f));
+
+        billboard->SetPosition(glm::vec2(-1.0f, -1.0f));
         billboard->Draw();
 
+        spy->SetPosition(glm::vec2(0.0f, 0.0f));
+        spy->Draw();
+
+        paladin->SetPosition(glm::vec2(1.0f, 1.0f));
+        paladin->Draw();
+
+        assassin->SetPosition(glm::vec2(2.0f, 2.0f));
+        assassin->Draw();
 
         // Go back to drawing 3D.
         render3DScene();

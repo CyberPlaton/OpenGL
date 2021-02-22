@@ -38,6 +38,10 @@ bool Texture2D::LoadTexture(const std::string& fileName, bool genMipMaps) {
 		}
 
 
+		// Get information from image.
+		m_Size = glm::vec2(w, h); // Size aka Dimensions.
+		m_FilePath = fileName; // Save path for resource manager.
+
 		// Create texture object.
 		glGenTextures(1, &m_TextureHandle);
 
@@ -150,6 +154,14 @@ void Sprite::Draw(){
 	m_SpriteShader->Use();
 
 	m_SpriteTexture->Bind(); // Equals to setting uniform sampler...
+
+
+	glm::mat4 model = glm::translate(glm::mat4(), glm::vec3(m_Position, 1.0f)) * glm::scale(glm::mat4(), glm::vec3(0.5f, 0.5f, 0.0f));
+
+	m_SpriteShader->SetUniform("view", glm::mat4(1.0f)); // id
+	m_SpriteShader->SetUniform("projection", glm::mat4(1.0f)); // id
+	m_SpriteShader->SetUniform("model", model);
+
 
 	glBindVertexArray(m_QuadVAO);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
