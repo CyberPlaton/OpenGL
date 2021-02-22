@@ -49,9 +49,13 @@ public:
 
 	void SetPosition(glm::vec2 pos) { m_Position = pos; }
 	void SetScale(float s) { m_Scale = s; }
+	void SetColor(glm::vec3 c) { m_Color = c; }
+	void SetBrightness(float b) { if (b <= 1.0f && b >= 0.0f) m_Brightness = b; }
+
 private:
 	glm::vec2 m_Position;
-	glm::vec3 m_Color;
+	glm::vec3 m_Color = glm::vec3(1.0f); // Default white color.
+	float m_Brightness = 1.0f; // Valid value 0.0f-1.0f, where 1.0f is full brightness.
 	float m_Scale = 1.0f;
 	float m_Rotation = 0.0f;
 

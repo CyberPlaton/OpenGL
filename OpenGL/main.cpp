@@ -408,20 +408,29 @@ int main(){
         // Special for drawing 2D.
         render2DScene();
 
-        billboard->SetScale(0.1f);
-        billboard->SetPosition(glm::vec2(-1.0f, -1.0f));
+        static float r = 0.0f, g = 1.0f, b = 0.5f;
+        r = (r >= 1.0f) ? 0.0f : r += 0.01f;
+        g = (g >= 1.0f) ? 0.0f : g += 0.01f;
+        b = (b >= 1.0f) ? 0.0f : b += 0.01f;
+
+
+        billboard->SetColor(glm::vec3(r, g, b));
+        billboard->SetBrightness(0.5f);
+        billboard->SetScale(0.5f);
+        billboard->SetPosition(glm::vec2(0.0f, 0.0f));
         billboard->Draw();
 
-        spy->SetScale(0.1f);
+        spy->SetColor(glm::vec3(r, g, b));
+        spy->SetScale(0.2f);
         spy->SetPosition(glm::vec2(0.0f, 0.0f));
         spy->Draw();
 
-        paladin->SetScale(0.1f);
-        paladin->SetPosition(glm::vec2(1.0f, 1.0f));
+        paladin->SetScale(0.2f);
+        paladin->SetPosition(glm::vec2(0.7f, 0.2f));
         paladin->Draw();
 
-        assassin->SetScale(0.1f);
-        assassin->SetPosition(glm::vec2(2.0f, 2.0f));
+        assassin->SetScale(0.2f);
+        assassin->SetPosition(glm::vec2(0.5f, 0.5f));
         assassin->Draw();
 
         // Go back to drawing 3D.

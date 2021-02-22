@@ -5,4 +5,5 @@ C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Microsoft
 C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\shared\minwindef.h(130,1): warning C4005: 'APIENTRY': macro redefinition
 C:\Users\Bogdan Strohonov\Desktop\OpenGL\OpenGL\OpenGL\Common\include\GLFW\glfw3.h(123): message : see previous definition of 'APIENTRY'
   Generating Code...
+     Creating library C:\Users\Bogdan Strohonov\Desktop\OpenGL\OpenGL\\OpenGL\bin\Debug-x64\OpenGL\OpenGL.lib and object C:\Users\Bogdan Strohonov\Desktop\OpenGL\OpenGL\\OpenGL\bin\Debug-x64\OpenGL\OpenGL.exp
   OpenGL.vcxproj -> C:\Users\Bogdan Strohonov\Desktop\OpenGL\OpenGL\OpenGL\bin\Debug-x64\OpenGL\OpenGL.exe

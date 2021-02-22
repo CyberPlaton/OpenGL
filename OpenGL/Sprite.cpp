@@ -161,6 +161,7 @@ void Sprite::Draw(){
 	m_SpriteShader->SetUniform("view", glm::mat4(1.0f)); // id
 	m_SpriteShader->SetUniform("projection", glm::mat4(1.0f)); // id
 	m_SpriteShader->SetUniform("model", model);
+	m_SpriteShader->SetUniform("color", glm::vec4(m_Color, m_Brightness));
 
 
 	glBindVertexArray(m_QuadVAO);
