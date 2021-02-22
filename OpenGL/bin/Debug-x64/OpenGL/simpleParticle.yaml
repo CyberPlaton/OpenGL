@@ -1,0 +1,11 @@
+position: [0.5, 0.3]
+velocity: [-0.1, -0.2]
+velocityVar: [0.05, 0.05]
+colorBegin: [1, 0, 0, 1]
+colorEnd: [0, 0, 1, 1]
+lifeTime: 10
+sizeBegin: 0.02
+sizeEnd: 0.001
+sizeVar: 0.05
+texture: "particle_texture.png"
+

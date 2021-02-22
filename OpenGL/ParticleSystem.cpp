@@ -3,6 +3,7 @@
 std::mt19937 Random::s_RandomEngine;
 std::uniform_int_distribution<std::mt19937::result_type> Random::s_Distribution;
 
+ParticleData* ParticleSystem::m_ParticleData = nullptr;
 
 ParticleSystem::ParticleSystem(Sprite* sprite){
 
@@ -63,26 +64,94 @@ void ParticleSystem::onRender() {
 
 
 
-void ParticleSystem::emit(const ParticleData& props) {
+void ParticleSystem::emit() {
 
 	Particle& particle = m_ParticlePool[m_PoolIndex];
 	particle.m_Active = true;
-	particle.m_Position = props.m_Position;
+	particle.m_Position = m_ParticleData->m_Position;
 	particle.m_Rotation = Random::Float() * 2.0f * glm::pi<float>();
 
 	// Velocity
-	particle.m_Velocity = props.m_Velocity;
-	particle.m_Velocity.x += props.m_VelocityVariation.x * (Random::Float() - 0.5f);
-	particle.m_Velocity.y += props.m_VelocityVariation.y * (Random::Float() - 0.5f);
+	particle.m_Velocity = m_ParticleData->m_Velocity;
+	particle.m_Velocity.x += m_ParticleData->m_VelocityVariation.x * (Random::Float() - 0.5f);
+	particle.m_Velocity.y += m_ParticleData->m_VelocityVariation.y * (Random::Float() - 0.5f);
 	
 	// Color
-	particle.m_ColorBegin = props.m_ColorBegin;
-	particle.m_ColorEnd = props.m_ColorEnd;
+	particle.m_ColorBegin = m_ParticleData->m_ColorBegin;
+	particle.m_ColorEnd = m_ParticleData->m_ColorEnd;
 
-	particle.m_LifeTime = props.m_LifeTime;
-	particle.m_LifeRemaining = props.m_LifeTime;
-	particle.m_SizeBegin = props.m_SizeBegin + props.m_SizeVariation * (Random::Float() - 0.5f);
-	particle.m_SizeEnd = props.m_SizeEnd;
+	particle.m_LifeTime = m_ParticleData->m_LifeTime;
+	particle.m_LifeRemaining = m_ParticleData->m_LifeTime;
+	particle.m_SizeBegin = m_ParticleData->m_SizeBegin + m_ParticleData->m_SizeVariation * (Random::Float() - 0.5f);
+	particle.m_SizeEnd = m_ParticleData->m_SizeEnd;
 
 	m_PoolIndex = --m_PoolIndex % m_ParticlePool.size();
+}
+
+ParticleSystem* ParticleSystem::createFromFile(std::string file) {
+
+	using namespace std;
+
+	if (!m_ParticleData) {
+		m_ParticleData = new ParticleData();
+	}
+
+	try {
+
+		YAML::Node node = YAML::LoadFile(file);
+
+		m_ParticleData->m_Position = glm::vec2(node["position"][0].as<float>(), node["position"][1].as<float>());
+
+		m_ParticleData->m_Velocity = glm::vec2(node["velocity"][0].as<float>(), node["velocity"][1].as<float>());
+
+		m_ParticleData->m_VelocityVariation = glm::vec2(node["velocityVar"][0].as<float>(), node["velocityVar"][1].as<float>());
+
+		m_ParticleData->m_ColorBegin = glm::vec4(node["colorBegin"][0].as<float>(), node["colorBegin"][1].as<float>(), node["colorBegin"][2].as<float>(), node["colorBegin"][3].as<float>());
+
+		m_ParticleData->m_ColorEnd = glm::vec4(node["colorEnd"][0].as<float>(), node["colorEnd"][1].as<float>(), node["colorEnd"][2].as<float>(), node["colorEnd"][3].as<float>());
+
+		m_ParticleData->m_LifeTime = node["lifeTime"].as<float>();
+
+		m_ParticleData->m_SizeBegin = node["sizeBegin"].as<float>();
+
+		m_ParticleData->m_SizeEnd = node["sizeEnd"].as<float>();
+
+		m_ParticleData->m_SizeVariation = node["sizeVar"].as<float>();
+
+		Sprite* sprite = new Sprite("shaderTexture", node["texture"].as<std::string>());
+		ParticleSystem* ps = new ParticleSystem(sprite);
+
+		return ps;
+	}
+	catch (std::exception e) {
+		cout << color(colors::RED);
+		cout << "Exception: " << e.what() << "\nin (ParticleSystem::createFromFile) \n" << white;
+
+		delete m_ParticleData;
+		return nullptr;
+	}
+
+
+
+	/*
+	cout << color(colors::RED);
+	cout << "position: " << node["position"][0].as<float>() << node["position"][1].as<float>() << endl;
+	cout << "velocity: " << node["velocity"][0].as<float>() << node["velocity"][1].as<float>() << endl;
+	cout << "velocityVar: " << node["velocityVar"][0].as<float>() << node["velocityVar"][1].as<float>() << endl;
+	cout << "colorBegin: " << node["colorBegin"][0].as<float>() << node["colorBegin"][1].as<float>() << node["colorBegin"][2].as<float>() << node["colorBegin"][3].as<float>() << endl;
+	cout << "colorEnd: " << node["colorEnd"][0].as<float>() << node["colorEnd"][1].as<float>() << node["colorEnd"][2].as<float>() << node["colorEnd"][3].as<float>() << endl;
+	cout << "lifeTime: " << node["lifeTime"].as<float>() << endl;
+	cout << "sizeBegin: " << node["sizeBegin"].as<float>() << endl;
+	cout << "sizeEnd: " << node["sizeEnd"].as<float>() << endl;
+	cout << "sizeVar: " << node["sizeVar"].as<float>() << endl;
+	cout << "texture: " << node["texture"].as<std::string>() << endl;
+	*/
+
+	/*
+	cout << color(colors::CYAN);
+	cout << "host: " << config["host"].as<std::string>() << endl;
+	cout << "port: " << config["port"].as<int>() << endl;
+	cout << "password: " << config["password"].as<std::string>() << endl;
+	cout << "servicename: " << config["servicename"].as<std::string>() << white << endl;
+	*/
 }

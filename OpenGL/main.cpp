@@ -18,6 +18,8 @@
 #include"Sprite.h"
 #include"ParticleSystem.h"
 
+#include"yaml-cpp/yaml.h"
+
 
 const char* APP_TITLE = "OpenGL Training";
 bool FULL_SCREEN = false;
@@ -66,6 +68,17 @@ int main(){
         return -1;
     }
 
+    // Testing yaml setup.
+    YAML::Node config = YAML::LoadFile("config.yaml");
+
+    cout << color(colors::CYAN);
+    cout << "host: " << config["host"].as<std::string>() << endl;
+    cout << "port: " << config["port"].as<int>() << endl;
+    cout << "password: " << config["password"].as<std::string>() << endl;
+    cout << "servicename: " << config["servicename"].as<std::string>() << white << endl;
+
+
+    ParticleSystem* p = ParticleSystem::createFromFile("simpleParticle.yaml");
 
     // Testing Assimp.
     AssimpModel* assModel = new AssimpModel("ships/fighter_1/fighter_1.obj");
@@ -199,6 +212,7 @@ int main(){
 
 
     // Testing particle system.
+    /*
     Sprite* particleSprite = new Sprite("shaderTexture", "particle_texture.png");
     ParticleSystem* particleSystem = new ParticleSystem(particleSprite);
     ParticleData* particleData = new ParticleData();
@@ -211,6 +225,9 @@ int main(){
     particleData->m_SizeVariation = 0.05f;
     particleData->m_Velocity = glm::vec2(-0.4f, 0.4f);
     particleData->m_VelocityVariation = glm::vec2(0.03f, 0.03f);
+    */
+
+    ParticleSystem* particleSystem = ParticleSystem::createFromFile("simpleParticle.yaml");
 
 
     // Light rotation
@@ -451,8 +468,7 @@ int main(){
 
         particleSystem->onUpdate(1/60.0f, g_pFPSCamera.GetPos());
         for (int i = 0; i < 5; i++) {
-            particleData->m_Position = assassin->m_Position;
-            particleSystem->emit(*particleData);
+            particleSystem->emit();
         }
         particleSystem->onRender();
 

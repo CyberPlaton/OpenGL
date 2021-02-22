@@ -11,6 +11,8 @@
 
 #include<glm/gtx/quaternion.hpp>
 
+#include"yaml-cpp/yaml.h"
+
 class Random
 {
 public:
@@ -58,13 +60,19 @@ public:
 
 
 public:
+    static ParticleSystem* createFromFile(std::string file);
     ParticleSystem(Sprite* sprite);
 
     void onUpdate(float dt, glm::vec3 camerPos);
 
     void onRender();
 
-    void emit(const ParticleData& props);
+    void emit();
+
+
+
+
+    static ParticleData* m_ParticleData;
 
 private:
     std::vector<Particle> m_ParticlePool;
