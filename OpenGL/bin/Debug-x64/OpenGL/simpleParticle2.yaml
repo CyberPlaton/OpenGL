@@ -7,6 +7,6 @@ lifeTime: 1
 sizeBegin: 0.1
 sizeEnd: 0.001
 sizeVar: 0.03
-texture: "particle_texture.png"
+texture: "particle_texture_sixstar.png"
 emitMode: B
 modeB: {point: [0.1, 0.1], width: 1.9}
