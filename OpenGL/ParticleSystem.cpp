@@ -108,7 +108,9 @@ void ParticleSystem::emit() {
 	}
 
 
-	particle.m_Rotation = Random::Float() * (m_ParticleData->m_Rotation + (Random::Float() + m_ParticleData->m_RotationVariation));
+	//particle.m_Rotation = Random::Float() * (m_ParticleData->m_Rotation + (Random::Float() + m_ParticleData->m_RotationVariation));
+
+	particle.m_Rotation = m_ParticleData->m_Rotation + Random::Float() * m_ParticleData->m_RotationVariation * (Random::Float() - 1.0f);
 
 	// Velocity
 	particle.m_Velocity = m_ParticleData->m_Velocity;

@@ -227,12 +227,14 @@ int main(){
     particleData->m_Velocity = glm::vec2(-0.4f, 0.4f);
     particleData->m_VelocityVariation = glm::vec2(0.03f, 0.03f);
     */
+    std::vector< ParticleSystem*> pSystems;
 
     ParticleSystem* particleSystem = ParticleSystem::createFromFile("simpleParticle.yaml");
-    ParticleSystem* particleSystem2 = ParticleSystem::createFromFile("simpleParticle2.yaml");
-    ParticleSystem* particleSystem3 = ParticleSystem::createFromFile("simpleParticle3.yaml");
-    ParticleSystem* particleSystem4 = ParticleSystem::createFromFile("simpleParticle4.yaml");
+    //ParticleSystem* particleSystem2 = ParticleSystem::createFromFile("simpleParticle2.yaml");
+    //ParticleSystem* particleSystem3 = ParticleSystem::createFromFile("simpleParticle3.yaml");
+    //ParticleSystem* particleSystem4 = ParticleSystem::createFromFile("simpleParticle4.yaml");
 
+    pSystems.push_back(particleSystem);
 
 
 
@@ -472,24 +474,16 @@ int main(){
 
 
 
-        particleSystem->onUpdate(1  / g_FPS, g_pFPSCamera.GetPos());
-        particleSystem2->onUpdate(1 / g_FPS, g_pFPSCamera.GetPos());
-        particleSystem3->onUpdate(1 / g_FPS, g_pFPSCamera.GetPos());
-        particleSystem4->onUpdate(1 / g_FPS, g_pFPSCamera.GetPos());
+        for (auto it : pSystems) {
+            it->onUpdate(1/g_FPS, g_pFPSCamera.GetPos());
 
+            for (int i = 0; i < 4; i++) {
+                it->emit();
+            }
 
-        for (int i = 0; i < 2; i++) {
-            particleSystem->emit();
-            particleSystem2->emit();
-            particleSystem3->emit();
-            particleSystem4->emit();
-
+            it->onRender();
         }
 
-        particleSystem->onRender();
-        particleSystem2->onRender();
-        particleSystem3->onRender();
-        particleSystem4->onRender();
 
         // Go back to drawing 3D.
         render3DScene();
