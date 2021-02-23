@@ -3,10 +3,12 @@ velocity: [0.2, 0.2]
 velocityVar: [0.1, 0.1]
 colorBegin: [1, 0.7, 0.01, 1]
 colorEnd: [0.7, 1, 0.1, 0.5]
-lifeTime: 0.5
+lifeTime: 1.2
 sizeBegin: 0.5
 sizeEnd: 0.001
-sizeVar: 0.05
+sizeVar: 0.5
+rotation: 0.1
+rotationVar: 0.4
 texture: "particle_texture_hexagon.png"
 emitMode: B
 modeB: {point: [0.3, 0.1], width: 1.3}

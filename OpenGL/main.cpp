@@ -29,6 +29,7 @@ int g_WindowHeight = 720;
 int g_WindowWidth = 1024;
 const std::string planeTexture = "Stone_Wall.dds";
 const std::string crateTexture = "crate_diffuse.png";
+static float g_FPS = 0.0f;
 
 /*
 OrbitCamera* g_pOrbitCamera = NULL;
@@ -471,13 +472,13 @@ int main(){
 
 
 
-        particleSystem->onUpdate(1/60.0f, g_pFPSCamera.GetPos());
-        particleSystem2->onUpdate(1 / 60.0f, g_pFPSCamera.GetPos());
-        particleSystem3->onUpdate(1 / 60.0f, g_pFPSCamera.GetPos());
-        particleSystem4->onUpdate(1 / 60.0f, g_pFPSCamera.GetPos());
+        particleSystem->onUpdate(1  / g_FPS, g_pFPSCamera.GetPos());
+        particleSystem2->onUpdate(1 / g_FPS, g_pFPSCamera.GetPos());
+        particleSystem3->onUpdate(1 / g_FPS, g_pFPSCamera.GetPos());
+        particleSystem4->onUpdate(1 / g_FPS, g_pFPSCamera.GetPos());
 
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 2; i++) {
             particleSystem->emit();
             particleSystem2->emit();
             particleSystem3->emit();
@@ -548,12 +549,12 @@ void ShowFPS(GLFWwindow* wnd) {
 
         double fps = (double)frameCount / elapsed; // Determine number of frames per second.
         double msPerFrame = 1000.0 / fps;
+        g_FPS = fps;
 
         // Update window title bar.
         std::ostringstream sout;
         sout.precision(3);
         sout << std::fixed << APP_TITLE << "    " << "FPS:" << fps << "  FrameTime:" << msPerFrame << "(ms)";
-    
     
         // Set window title.
         glfwSetWindowTitle(wnd, sout.str().c_str());

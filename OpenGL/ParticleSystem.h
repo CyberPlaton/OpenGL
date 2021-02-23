@@ -13,6 +13,8 @@
 
 #include"yaml-cpp/yaml.h"
 
+float common_lerp(float x, float y, float t);
+
 class Random
 {
 public:
@@ -38,6 +40,8 @@ struct ParticleData {
     glm::vec4 m_ColorBegin, m_ColorEnd;
     float m_LifeTime;
     float m_SizeBegin, m_SizeEnd, m_SizeVariation;
+    float m_Rotation;
+    float m_RotationVariation;
 };
 
 

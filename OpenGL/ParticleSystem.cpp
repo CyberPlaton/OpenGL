@@ -3,6 +3,9 @@
 std::mt19937 Random::s_RandomEngine;
 std::uniform_int_distribution<std::mt19937::result_type> Random::s_Distribution;
 
+float common_lerp(float x, float y, float t) {
+	return x * (1.f - t) + y * t;
+}
 
 ParticleSystem::ParticleSystem(Sprite* sprite){
 
@@ -45,17 +48,24 @@ void ParticleSystem::onRender() {
 		float life = particle.m_LifeRemaining / particle.m_LifeTime;
 
 
-		glm::vec4 color = glm::mix(particle.m_ColorEnd, particle.m_ColorBegin, life);
+		//glm::vec4 color = glm::mix(particle.m_ColorEnd, particle.m_ColorBegin, life);
 		//color.a = color.a * life;
 
-		//float size = glm::lerp(particle.m_SizeEnd, particle.m_SizeBegin, life);
-		float size = glm::mix(particle.m_SizeEnd, particle.m_SizeBegin, life);
+		glm::vec4 color = glm::vec4(1.0f);
+		color.r = common_lerp(particle.m_ColorEnd.r, particle.m_ColorBegin.r, life);
+		color.g = common_lerp(particle.m_ColorEnd.g, particle.m_ColorBegin.g, life);
+		color.b = common_lerp(particle.m_ColorEnd.b, particle.m_ColorBegin.b, life);
+		color.a = color.a*life;
+
+
+		float size = common_lerp(particle.m_SizeEnd, particle.m_SizeBegin, life);
 
 
 		m_ParticleSprite->SetColor(glm::vec3(color.x, color.y, color.z));
 		m_ParticleSprite->SetBrightness(color.a);
 		m_ParticleSprite->SetScale(size);
 		m_ParticleSprite->SetPosition(particle.m_Position);
+		m_ParticleSprite->SetRotation(particle.m_Rotation);
 
 		m_ParticleSprite->Draw();
 	}
@@ -98,12 +108,13 @@ void ParticleSystem::emit() {
 	}
 
 
-	particle.m_Rotation = Random::Float() * 2.0f * glm::pi<float>();
+	particle.m_Rotation = Random::Float() * (m_ParticleData->m_Rotation + (Random::Float() + m_ParticleData->m_RotationVariation));
 
 	// Velocity
 	particle.m_Velocity = m_ParticleData->m_Velocity;
 	particle.m_Velocity.x += m_ParticleData->m_VelocityVariation.x * (Random::Float() - 0.5f);
 	particle.m_Velocity.y += m_ParticleData->m_VelocityVariation.y * (Random::Float() - 0.5f);
+
 
 	// Color
 	particle.m_ColorBegin = m_ParticleData->m_ColorBegin;
@@ -113,6 +124,8 @@ void ParticleSystem::emit() {
 	particle.m_LifeRemaining = m_ParticleData->m_LifeTime;
 	particle.m_SizeBegin = m_ParticleData->m_SizeBegin + m_ParticleData->m_SizeVariation * (Random::Float() - 0.5f);
 	particle.m_SizeEnd = m_ParticleData->m_SizeEnd;
+
+
 
 	m_PoolIndex = --m_PoolIndex % m_ParticlePool.size();
 
@@ -175,6 +188,11 @@ ParticleSystem* ParticleSystem::createFromFile(std::string file) {
 		ps->m_ParticleData->m_SizeEnd = node["sizeEnd"].as<float>();
 
 		ps->m_ParticleData->m_SizeVariation = node["sizeVar"].as<float>();
+
+		ps->m_ParticleData->m_Rotation = node["rotation"].as<float>();
+
+		ps->m_ParticleData->m_RotationVariation = node["rotationVar"].as<float>();
+
 
 		// Get the emit mode.
 		if (node["emitMode"].as<std::string>().compare("A") == 0) { // Emit mode A

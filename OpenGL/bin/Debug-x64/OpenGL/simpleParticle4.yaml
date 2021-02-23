@@ -3,10 +3,12 @@ velocity: [0.0, 0.0]
 velocityVar: [1.0, 1.0]
 colorBegin: [0, 0.3, 1, 0.6]
 colorEnd: [1, 0.3, 0, 0.1]
-lifeTime: 1
+lifeTime: 6.1
 sizeBegin: 0.1
 sizeEnd: 0.0001
 sizeVar: 0.5
+rotation: 0.2
+rotationVar: 1.0
 texture: "particle_texture_smoke.png"
 emitMode: B
 modeB: {point: [-0.3, 0.4], width: 0.8}

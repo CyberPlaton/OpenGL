@@ -156,7 +156,13 @@ void Sprite::Draw(){
 	m_SpriteTexture->Bind(); // Equals to setting uniform sampler...
 
 
-	glm::mat4 model = glm::translate(glm::mat4(), glm::vec3(m_Position, 1.0f)) * glm::scale(glm::mat4(), glm::vec3(m_Scale, m_Scale, 0.0f));
+	//m_Position.x += m_Position.x * sinf(glm::radians(m_Rotation));
+	//m_Position.y += m_Position.y * cosf(glm::radians(m_Rotation));
+
+
+	//glm::mat4 model = glm::translate(glm::mat4(), glm::vec3(m_Position, 1.0f)) * glm::scale(glm::mat4(), glm::vec3(m_Scale, m_Scale, 0.0f));
+	glm::mat4 model = glm::mat4(1);
+	model = glm::translate(glm::mat4(), glm::vec3(m_Position, 1.0f)) * glm::rotate(model, m_Rotation, glm::vec3(0.0f, 0.0f, 1.0f)) *glm::scale(glm::mat4(), glm::vec3(m_Scale, m_Scale, 0.0f));
 
 	m_SpriteShader->SetUniform("view", glm::mat4(1.0f)); // id
 	m_SpriteShader->SetUniform("projection", glm::mat4(1.0f)); // id
