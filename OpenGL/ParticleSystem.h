@@ -58,6 +58,12 @@ public:
     };
 
 
+    enum class EmitPositionMode {
+        Invalid = -1,
+        Fixed_On_Object = 0, // Psition of particles is relative to the position of some given object (expressed as a 2D-vec).
+        Fixed_To_Space = 1, // Position of particles is some definde 2D-space.
+    };
+
 
 public:
     static ParticleSystem* createFromFile(std::string file);
@@ -81,6 +87,24 @@ private:
 
     Sprite* m_ParticleSprite = nullptr;
 
+    EmitPositionMode m_EmitPositionMode = EmitPositionMode::Invalid;
+
+
+
+
+    struct EmitModeA { // Fixed on object.
+
+
+    };
+
+    struct EmitModeB { // Fixed to space.
+
+        glm::vec2 m_Point;
+        float m_Width;
+    };
+
+    EmitModeA* m_EmitModeA = nullptr;
+    EmitModeB* m_EmitModeB = nullptr;
 private:
 
 };

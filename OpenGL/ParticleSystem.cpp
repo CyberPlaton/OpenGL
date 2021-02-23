@@ -67,6 +67,58 @@ void ParticleSystem::emit() {
 
 	Particle& particle = m_ParticlePool[m_PoolIndex];
 	particle.m_Active = true;
+
+	switch (m_EmitPositionMode) {
+	case EmitPositionMode::Invalid:
+		break;
+
+
+	case EmitPositionMode::Fixed_On_Object:
+		// For it we need an abstract entity-transform component
+		// so that we always get the current location of Object.
+		return; // Currently not implemented.
+		break;
+
+
+
+	case EmitPositionMode::Fixed_To_Space:
+		// For it we need a rectangle definition (for now)
+		// a Point in space and a Width,
+		// thus we can define location random in the rectangle.
+		if (!m_EmitModeB) return;
+
+		particle.m_Position = glm::vec2(m_EmitModeB->m_Point.x + Random::Float()* m_EmitModeB->m_Width, m_EmitModeB->m_Point.y + Random::Float() * m_EmitModeB->m_Width);
+
+		break;
+
+
+	default:
+		break;
+
+	}
+
+
+	particle.m_Rotation = Random::Float() * 2.0f * glm::pi<float>();
+
+	// Velocity
+	particle.m_Velocity = m_ParticleData->m_Velocity;
+	particle.m_Velocity.x += m_ParticleData->m_VelocityVariation.x * (Random::Float() - 0.5f);
+	particle.m_Velocity.y += m_ParticleData->m_VelocityVariation.y * (Random::Float() - 0.5f);
+
+	// Color
+	particle.m_ColorBegin = m_ParticleData->m_ColorBegin;
+	particle.m_ColorEnd = m_ParticleData->m_ColorEnd;
+
+	particle.m_LifeTime = m_ParticleData->m_LifeTime;
+	particle.m_LifeRemaining = m_ParticleData->m_LifeTime;
+	particle.m_SizeBegin = m_ParticleData->m_SizeBegin + m_ParticleData->m_SizeVariation * (Random::Float() - 0.5f);
+	particle.m_SizeEnd = m_ParticleData->m_SizeEnd;
+
+	m_PoolIndex = --m_PoolIndex % m_ParticlePool.size();
+
+	/*
+	Particle& particle = m_ParticlePool[m_PoolIndex];
+	particle.m_Active = true;
 	particle.m_Position = m_ParticleData->m_Position;
 	particle.m_Rotation = Random::Float() * 2.0f * glm::pi<float>();
 
@@ -85,6 +137,7 @@ void ParticleSystem::emit() {
 	particle.m_SizeEnd = m_ParticleData->m_SizeEnd;
 
 	m_PoolIndex = --m_PoolIndex % m_ParticlePool.size();
+	*/
 }
 
 ParticleSystem* ParticleSystem::createFromFile(std::string file) {
@@ -123,6 +176,18 @@ ParticleSystem* ParticleSystem::createFromFile(std::string file) {
 
 		ps->m_ParticleData->m_SizeVariation = node["sizeVar"].as<float>();
 
+		// Get the emit mode.
+		if (node["emitMode"].as<std::string>().compare("A") == 0) { // Emit mode A
+
+			// Not implemented.
+		}
+		else { // Emit mode B
+
+			ps->m_EmitPositionMode = EmitPositionMode::Fixed_To_Space;
+			ps->m_EmitModeB = new EmitModeB();
+			ps->m_EmitModeB->m_Point = glm::vec2(node["modeB"]["point"][0].as<float>(), node["modeB"]["point"][1].as<float>());
+			ps->m_EmitModeB->m_Width = node["modeB"]["width"].as<float>();
+		}
 
 		return ps;
 	}

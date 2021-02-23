@@ -8,4 +8,5 @@ sizeBegin: 0.02
 sizeEnd: 0.001
 sizeVar: 0.05
 texture: "particle_texture.png"
-
+emitMode: B
+modeB: {point: [0.3, 0.1], width: 0.3}
