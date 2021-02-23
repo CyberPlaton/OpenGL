@@ -228,6 +228,11 @@ int main(){
     */
 
     ParticleSystem* particleSystem = ParticleSystem::createFromFile("simpleParticle.yaml");
+    ParticleSystem* particleSystem2 = ParticleSystem::createFromFile("simpleParticle2.yaml");
+    ParticleSystem* particleSystem3 = ParticleSystem::createFromFile("simpleParticle3.yaml");
+    ParticleSystem* particleSystem4 = ParticleSystem::createFromFile("simpleParticle4.yaml");
+
+
 
 
     // Light rotation
@@ -467,12 +472,23 @@ int main(){
 
 
         particleSystem->onUpdate(1/60.0f, g_pFPSCamera.GetPos());
+        particleSystem2->onUpdate(1 / 60.0f, g_pFPSCamera.GetPos());
+        particleSystem3->onUpdate(1 / 60.0f, g_pFPSCamera.GetPos());
+        particleSystem4->onUpdate(1 / 60.0f, g_pFPSCamera.GetPos());
+
+
         for (int i = 0; i < 5; i++) {
             particleSystem->emit();
+            particleSystem2->emit();
+            particleSystem3->emit();
+            particleSystem4->emit();
+
         }
+
         particleSystem->onRender();
-
-
+        particleSystem2->onRender();
+        particleSystem3->onRender();
+        particleSystem4->onRender();
 
         // Go back to drawing 3D.
         render3DScene();
@@ -621,7 +637,7 @@ bool InitOpenGL() {
 
 
     // Set clear color.
-    glClearColor(0.0f, 0.25f, 0.38f, 1.0f);
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
     // Init viewport.
     glViewport(0, 0, g_WindowWidth, g_WindowHeight); // Defines where to draw to..

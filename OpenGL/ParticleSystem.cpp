@@ -3,7 +3,6 @@
 std::mt19937 Random::s_RandomEngine;
 std::uniform_int_distribution<std::mt19937::result_type> Random::s_Distribution;
 
-ParticleData* ParticleSystem::m_ParticleData = nullptr;
 
 ParticleSystem::ParticleSystem(Sprite* sprite){
 
@@ -92,34 +91,38 @@ ParticleSystem* ParticleSystem::createFromFile(std::string file) {
 
 	using namespace std;
 
-	if (!m_ParticleData) {
-		m_ParticleData = new ParticleData();
-	}
+	Sprite* sprite = nullptr;
+	ParticleSystem* ps = nullptr;
 
 	try {
 
 		YAML::Node node = YAML::LoadFile(file);
 
-		m_ParticleData->m_Position = glm::vec2(node["position"][0].as<float>(), node["position"][1].as<float>());
+		// Create Particle system.
+		sprite = new Sprite("shaderTexture", node["texture"].as<std::string>());
+		ps = new ParticleSystem(sprite);
 
-		m_ParticleData->m_Velocity = glm::vec2(node["velocity"][0].as<float>(), node["velocity"][1].as<float>());
+		// Initialize data for population.
+		ps->m_ParticleData = new ParticleData();
 
-		m_ParticleData->m_VelocityVariation = glm::vec2(node["velocityVar"][0].as<float>(), node["velocityVar"][1].as<float>());
+		ps->m_ParticleData->m_Position = glm::vec2(node["position"][0].as<float>(), node["position"][1].as<float>());
 
-		m_ParticleData->m_ColorBegin = glm::vec4(node["colorBegin"][0].as<float>(), node["colorBegin"][1].as<float>(), node["colorBegin"][2].as<float>(), node["colorBegin"][3].as<float>());
+		ps->m_ParticleData->m_Velocity = glm::vec2(node["velocity"][0].as<float>(), node["velocity"][1].as<float>());
 
-		m_ParticleData->m_ColorEnd = glm::vec4(node["colorEnd"][0].as<float>(), node["colorEnd"][1].as<float>(), node["colorEnd"][2].as<float>(), node["colorEnd"][3].as<float>());
+		ps->m_ParticleData->m_VelocityVariation = glm::vec2(node["velocityVar"][0].as<float>(), node["velocityVar"][1].as<float>());
 
-		m_ParticleData->m_LifeTime = node["lifeTime"].as<float>();
+		ps->m_ParticleData->m_ColorBegin = glm::vec4(node["colorBegin"][0].as<float>(), node["colorBegin"][1].as<float>(), node["colorBegin"][2].as<float>(), node["colorBegin"][3].as<float>());
 
-		m_ParticleData->m_SizeBegin = node["sizeBegin"].as<float>();
+		ps->m_ParticleData->m_ColorEnd = glm::vec4(node["colorEnd"][0].as<float>(), node["colorEnd"][1].as<float>(), node["colorEnd"][2].as<float>(), node["colorEnd"][3].as<float>());
 
-		m_ParticleData->m_SizeEnd = node["sizeEnd"].as<float>();
+		ps->m_ParticleData->m_LifeTime = node["lifeTime"].as<float>();
 
-		m_ParticleData->m_SizeVariation = node["sizeVar"].as<float>();
+		ps->m_ParticleData->m_SizeBegin = node["sizeBegin"].as<float>();
 
-		Sprite* sprite = new Sprite("shaderTexture", node["texture"].as<std::string>());
-		ParticleSystem* ps = new ParticleSystem(sprite);
+		ps->m_ParticleData->m_SizeEnd = node["sizeEnd"].as<float>();
+
+		ps->m_ParticleData->m_SizeVariation = node["sizeVar"].as<float>();
+
 
 		return ps;
 	}
@@ -127,7 +130,8 @@ ParticleSystem* ParticleSystem::createFromFile(std::string file) {
 		cout << color(colors::RED);
 		cout << "Exception: " << e.what() << "\nin (ParticleSystem::createFromFile) \n" << white;
 
-		delete m_ParticleData;
+		delete sprite;
+		delete ps;
 		return nullptr;
 	}
 

@@ -72,7 +72,7 @@ public:
 
 
 
-    static ParticleData* m_ParticleData;
+    ParticleData* m_ParticleData = nullptr;
 
 private:
     std::vector<Particle> m_ParticlePool;
