@@ -196,6 +196,9 @@ void Sprite::Draw(){
 	m_SpriteTexture->Bind(); // Equals to setting uniform sampler...
 
 
+	// It is sufficient for the rotation to be a full cycle
+	// to set the rotation to 6.3f.
+
 	glm::mat4 model = glm::mat4(1);
 	model = glm::translate(glm::mat4(), glm::vec3(m_Position, 1.0f)) * glm::rotate(model, m_Rotation, glm::vec3(0.0f, 0.0f, 1.0f)) *glm::scale(glm::mat4(), glm::vec3(m_Scale, m_Scale, 0.0f));
 

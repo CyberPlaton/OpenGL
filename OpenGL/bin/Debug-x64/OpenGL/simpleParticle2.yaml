@@ -7,8 +7,9 @@ lifeTime: 0.4
 sizeBegin: 0.1
 sizeEnd: 0.001
 sizeVar: 0.03
-rotation: 0.1
-rotationVar: 0.1
+rotation: 0.002
+rotationVar: 0.001
+rotationDir: 1
 texture: "particle_texture_sixstar.png"
 emitMode: B
 modeB: {point: [0.1, 0.1], width: 1.9}

@@ -19,7 +19,7 @@ ParticleSystem::ParticleSystem(Sprite* sprite){
 void ParticleSystem::onUpdate(float dt, glm::vec3 camerPos) {
 
 	
-	for (auto& particle : m_ParticlePool)
+	for (Particle& particle : m_ParticlePool)
 	{
 		if (!particle.m_Active)
 			continue;
@@ -35,7 +35,8 @@ void ParticleSystem::onUpdate(float dt, glm::vec3 camerPos) {
 		particle.m_LifeRemaining = (particle.m_LifeRemaining - dt < 0.0f) ? 0.0f : particle.m_LifeRemaining -= dt;
 
 		particle.m_Position += particle.m_Velocity * (float)dt;
-		particle.m_Rotation += 0.01f * dt;
+
+		particle.m_Rotation += dt * particle.m_RotationDirection; // Random Range of rotation -dt to dt.
 	}
 }
 
@@ -114,7 +115,8 @@ void ParticleSystem::emit() {
 
 	//particle.m_Rotation = Random::Float() * (m_ParticleData->m_Rotation + (Random::Float() + m_ParticleData->m_RotationVariation));
 
-	particle.m_Rotation = m_ParticleData->m_Rotation + Random::Float() * m_ParticleData->m_RotationVariation * (Random::Float() - 1.0f);
+	particle.m_Rotation = m_ParticleData->m_Rotation + Random::Float() * m_ParticleData->m_RotationVariation;
+	particle.m_RotationDirection = m_ParticleData->m_RotationDir;
 
 	// Velocity
 	particle.m_Velocity = m_ParticleData->m_Velocity;
@@ -199,6 +201,7 @@ ParticleSystem* ParticleSystem::createFromFile(std::string file) {
 
 		ps->m_ParticleData->m_RotationVariation = node["rotationVar"].as<float>();
 
+		ps->m_ParticleData->m_RotationDir = node["rotationDir"].as<int>();
 
 		// Get the emit mode.
 		if (node["emitMode"].as<std::string>().compare("A") == 0) { // Emit mode A

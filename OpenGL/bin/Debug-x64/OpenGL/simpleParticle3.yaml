@@ -7,8 +7,9 @@ lifeTime: 1.2
 sizeBegin: 0.5
 sizeEnd: 0.001
 sizeVar: 0.5
-rotation: 0.1
-rotationVar: 0.4
+rotation: 0.03
+rotationVar: 0.001
+rotationDir: -1
 texture: "particle_texture_hexagon.png"
 emitMode: B
 modeB: {point: [0.3, 0.1], width: 1.3}

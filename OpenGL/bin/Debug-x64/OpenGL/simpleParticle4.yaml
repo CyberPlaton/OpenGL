@@ -7,8 +7,9 @@ lifeTime: 6.1
 sizeBegin: 0.1
 sizeEnd: 0.0001
 sizeVar: 0.5
-rotation: 0.2
-rotationVar: 1.0
+rotation: 0.01
+rotationVar: 0.02
+rotationDir: 1
 texture: "particle_texture_smoke.png"
 emitMode: B
 modeB: {point: [-0.3, 0.4], width: 0.8}

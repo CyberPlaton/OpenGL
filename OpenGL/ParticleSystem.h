@@ -42,6 +42,7 @@ struct ParticleData {
     float m_SizeBegin, m_SizeEnd, m_SizeVariation;
     float m_Rotation;
     float m_RotationVariation;
+    int m_RotationDir = 1; // -1 or 1 for direction..
 };
 
 
@@ -57,6 +58,8 @@ public:
 
             float m_CurrentLifeTime = 1.0f;
             float m_LifeRemaining = 0.0f;
+
+            int m_RotationDirection = 1; // Default.
 
             bool m_Active = false;
     };

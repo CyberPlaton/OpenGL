@@ -476,7 +476,6 @@ int main(){
         assassin->SetPosition(glm::vec2(0.5f, 0.5f));
         assassin->Draw();
 
-
         for (auto it : pSystems) {
 
             it->onUpdate(1 / g_FPS, g_pFPSCamera.GetPos());
@@ -711,7 +710,10 @@ void Update(double d){
     // Particles.
     if (glfwGetKey(g_pWindow, GLFW_KEY_SPACE) == GLFW_PRESS) {
 
-        g_Emit = !g_Emit;
+        g_Emit = true;
+    }
+    else{
+        g_Emit = false;
     }
 
     // Camera movement.
