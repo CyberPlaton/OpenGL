@@ -105,9 +105,28 @@ Sprite::Sprite(std::string shader, std::string texture) {
 	m_SpriteTexture->LoadTexture(texture);
 
 
+	Pos_Color_Tex v1, v2, v3, v4;
+	v1.m_Position = glm::vec3(0.5f, 0.5f, 0.0f);
+	v2.m_Position = glm::vec3(0.5f, -0.5f, 0.0f);
+	v3.m_Position = glm::vec3(-0.5f, -0.5f, 0.0f);
+	v4.m_Position = glm::vec3(-0.5f, 0.5f, 0.0f);
 
+	v1.m_Color = glm::vec3(0.0f, 1.0f, 0.0f);
+	v2.m_Color = glm::vec3(0.0f, 1.0f, 0.0f);
+	v3.m_Color = glm::vec3(0.0f, 1.0f, 0.0f);
+	v4.m_Color = glm::vec3(0.0f, 1.0f, 0.0f);
 
+	v1.m_TexCoords = glm::vec2(1.0f, 1.0f);
+	v2.m_TexCoords = glm::vec2(1.0f, 0.0f);
+	v3.m_TexCoords = glm::vec2(0.0f, 0.0f);
+	v4.m_TexCoords = glm::vec2(0.0f, 1.0f);
 
+	m_CommonVertices.push_back(v1);
+	m_CommonVertices.push_back(v2);
+	m_CommonVertices.push_back(v3);
+	m_CommonVertices.push_back(v4);
+
+	/*
 	float vertices[] = {
 		// positions          // colors           // texture coords
 		 0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f, // top right
@@ -115,23 +134,40 @@ Sprite::Sprite(std::string shader, std::string texture) {
 		-0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f, // bottom left
 		-0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f  // top left 
 	};
+	*/
+
 	unsigned int indices[] = {
 		0, 1, 3, // first triangle
 		1, 2, 3  // second triangle
 	};
-	unsigned int VBO, EBO;
-	glGenVertexArrays(1, &m_QuadVAO);
-	glGenBuffers(1, &VBO);
-	glGenBuffers(1, &EBO);
 
-	glBindVertexArray(m_QuadVAO);
+	//unsigned int VBO, EBO; // Todo: move to memory protocol.
+	glGenVertexArrays(1, &m_VAO);
+	glGenBuffers(1, &m_VBO);
+	glGenBuffers(1, &m_EBO);
 
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	glBindVertexArray(m_VAO);
 
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
+	glBufferData(GL_ARRAY_BUFFER, m_CommonVertices.size()* sizeof(Pos_Color_Tex), &m_CommonVertices[0], GL_STATIC_DRAW);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
+
+	// Vertex positions.
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Pos_Color_Tex), (GLvoid*)0);
+
+	// Vertex colors.
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Pos_Color_Tex), (GLvoid*)offsetof(Pos_Color_Tex, m_Color));
+
+	// Vertex texture coords.
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Pos_Color_Tex), (GLvoid*)offsetof(Pos_Color_Tex, m_TexCoords));
+
+	/*
 	// position attribute
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
@@ -141,6 +177,10 @@ Sprite::Sprite(std::string shader, std::string texture) {
 	// texture coord attribute
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
 	glEnableVertexAttribArray(2);
+	*/
+
+
+	glBindVertexArray(0); // Unbind.
 }
 
 
@@ -156,11 +196,6 @@ void Sprite::Draw(){
 	m_SpriteTexture->Bind(); // Equals to setting uniform sampler...
 
 
-	//m_Position.x += m_Position.x * sinf(glm::radians(m_Rotation));
-	//m_Position.y += m_Position.y * cosf(glm::radians(m_Rotation));
-
-
-	//glm::mat4 model = glm::translate(glm::mat4(), glm::vec3(m_Position, 1.0f)) * glm::scale(glm::mat4(), glm::vec3(m_Scale, m_Scale, 0.0f));
 	glm::mat4 model = glm::mat4(1);
 	model = glm::translate(glm::mat4(), glm::vec3(m_Position, 1.0f)) * glm::rotate(model, m_Rotation, glm::vec3(0.0f, 0.0f, 1.0f)) *glm::scale(glm::mat4(), glm::vec3(m_Scale, m_Scale, 0.0f));
 
@@ -172,8 +207,8 @@ void Sprite::Draw(){
 	//glBlendFunc(GL_SRC_COLOR, GL_SRC_COLOR);
 
 
-	glBindVertexArray(m_QuadVAO);
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+	glBindVertexArray(m_VAO);
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); // TODO: Move to batch renderer.
 
 	glBindVertexArray(0);
 

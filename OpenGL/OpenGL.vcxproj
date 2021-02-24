@@ -88,6 +88,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Batch.cpp" />
     <ClCompile Include="ParticleSystem.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Camera.cpp" />
@@ -99,6 +100,7 @@
     <ClCompile Include="Texture2D.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Batch.h" />
     <ClInclude Include="ParticleSystem.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Camera.h" />

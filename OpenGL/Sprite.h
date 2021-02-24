@@ -7,7 +7,36 @@
 
 #include"ColorConsole.h"
 #include"ShaderProgram.h"
+
 #include<stb_image/stb_image.h>
+
+#include<vector>
+
+// Baseclass for objects which occupy physical memory in GPU
+class MemoryProtocol { 
+protected:
+	~MemoryProtocol() {
+
+		glDeleteVertexArrays(1, &m_VAO);
+		glDeleteVertexArrays(1, &m_VBO);
+		glDeleteVertexArrays(1, &m_EBO);
+	}
+
+
+
+	GLuint m_VAO; // Vertex array object.
+	GLuint m_VBO; // Vertex buffer object.
+	GLuint m_EBO; // Vertex buffer object (indices).
+
+};
+
+
+struct Pos_Color_Tex {
+	glm::vec3 m_Position;
+	glm::vec3 m_Color;
+	glm::vec2 m_TexCoords;
+};
+
 
 
 class Texture2D {
@@ -40,7 +69,7 @@ private:
 };
 
 
-class Sprite {
+class Sprite : public MemoryProtocol {
 public:
 	Sprite(std::string shader, std::string texture);
 	~Sprite();
@@ -63,8 +92,10 @@ public:
 	Texture2D* m_SpriteTexture = nullptr;
 
 	ShaderProgram* m_SpriteShader = nullptr;
-	GLuint m_QuadVAO;
+	//GLuint m_QuadVAO;
+
 
 private:
 
+	std::vector<Pos_Color_Tex> m_CommonVertices;
 };
