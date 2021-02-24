@@ -43,6 +43,7 @@ struct ParticleData {
     float m_Rotation;
     float m_RotationVariation;
     int m_RotationDir = 1; // -1 or 1 for direction..
+    float m_RotationSpeed = 1.0f;
 };
 
 

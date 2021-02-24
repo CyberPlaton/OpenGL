@@ -10,6 +10,7 @@ sizeVar: 0.05
 rotation: 0.001
 rotationVar: 0.001
 rotationDir: -1
+rotationSpeed: 6
 texture: "particle_texture_star.png"
 emitMode: B
 modeB: {point: [-1.0, 0.0], width: 2.0}

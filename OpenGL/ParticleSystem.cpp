@@ -36,7 +36,7 @@ void ParticleSystem::onUpdate(float dt, glm::vec3 camerPos) {
 
 		particle.m_Position += particle.m_Velocity * (float)dt;
 
-		particle.m_Rotation += dt * particle.m_RotationDirection; // Random Range of rotation -dt to dt.
+		particle.m_Rotation += m_ParticleData->m_RotationSpeed * dt * particle.m_RotationDirection; // Random Range of rotation -dt to dt.
 	}
 }
 
@@ -202,6 +202,8 @@ ParticleSystem* ParticleSystem::createFromFile(std::string file) {
 		ps->m_ParticleData->m_RotationVariation = node["rotationVar"].as<float>();
 
 		ps->m_ParticleData->m_RotationDir = node["rotationDir"].as<int>();
+
+		ps->m_ParticleData->m_RotationSpeed = node["rotationSpeed"].as<float>();
 
 		// Get the emit mode.
 		if (node["emitMode"].as<std::string>().compare("A") == 0) { // Emit mode A

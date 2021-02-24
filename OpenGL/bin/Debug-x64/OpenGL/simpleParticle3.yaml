@@ -10,6 +10,7 @@ sizeVar: 0.5
 rotation: 0.03
 rotationVar: 0.001
 rotationDir: -1
+rotationSpeed: 0.1
 texture: "particle_texture_hexagon.png"
 emitMode: B
 modeB: {point: [0.3, 0.1], width: 1.3}
