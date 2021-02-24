@@ -230,11 +230,14 @@ int main(){
     std::vector< ParticleSystem*> pSystems;
 
     ParticleSystem* particleSystem = ParticleSystem::createFromFile("simpleParticle.yaml");
-    //ParticleSystem* particleSystem2 = ParticleSystem::createFromFile("simpleParticle2.yaml");
-    //ParticleSystem* particleSystem3 = ParticleSystem::createFromFile("simpleParticle3.yaml");
-    //ParticleSystem* particleSystem4 = ParticleSystem::createFromFile("simpleParticle4.yaml");
+    ParticleSystem* particleSystem2 = ParticleSystem::createFromFile("simpleParticle2.yaml");
+    ParticleSystem* particleSystem3 = ParticleSystem::createFromFile("simpleParticle3.yaml");
+    ParticleSystem* particleSystem4 = ParticleSystem::createFromFile("simpleParticle4.yaml");
 
     pSystems.push_back(particleSystem);
+    pSystems.push_back(particleSystem2);
+    pSystems.push_back(particleSystem3);
+    pSystems.push_back(particleSystem4);
 
 
 
