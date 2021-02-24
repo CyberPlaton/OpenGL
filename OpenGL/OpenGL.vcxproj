@@ -64,7 +64,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>yaml-cppd.lib;assimp-vc142-mtd.lib;glew32.lib;glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>lua54.lib;yaml-cppd.lib;assimp-vc142-mtd.lib;glew32.lib;glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\Users\Bogdan Strohonov\Desktop\OpenGL\OpenGL\OpenGL\Common\lib\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -83,13 +83,14 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>yaml-cpp.lib;assimp-vc142-mtd.lib;glew32.lib;glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>lua54.lib;lua54.lib;yaml-cpp.lib;assimp-vc142-mtd.lib;glew32.lib;glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\Users\Bogdan Strohonov\Desktop\OpenGL\OpenGL\OpenGL\Common\lib\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Batch.cpp" />
     <ClCompile Include="ParticleSystem.cpp" />
+    <ClCompile Include="Script.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Light.cpp" />
@@ -102,6 +103,7 @@
   <ItemGroup>
     <ClInclude Include="Batch.h" />
     <ClInclude Include="ParticleSystem.h" />
+    <ClInclude Include="Script.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="ColorConsole.h" />

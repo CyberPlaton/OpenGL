@@ -91,7 +91,10 @@ void ParticleSystem::emit() {
 	case EmitPositionMode::Fixed_On_Object:
 		// For it we need an abstract entity-transform component
 		// so that we always get the current location of Object.
-		return; // Currently not implemented.
+		if (!m_EmitModeA) return;
+
+		particle.m_Position = glm::vec2(m_EmitModeA->m_EntityPosition.x, m_EmitModeA->m_EntityPosition.y);
+
 		break;
 
 
@@ -208,7 +211,10 @@ ParticleSystem* ParticleSystem::createFromFile(std::string file) {
 		// Get the emit mode.
 		if (node["emitMode"].as<std::string>().compare("A") == 0) { // Emit mode A
 
-			// Not implemented.
+			
+			ps->m_EmitPositionMode = EmitPositionMode::Fixed_On_Object;
+			ps->m_EmitModeA = new EmitModeA();
+
 		}
 		else { // Emit mode B
 

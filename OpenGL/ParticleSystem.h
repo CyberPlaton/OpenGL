@@ -84,7 +84,8 @@ public:
     void emit();
 
 
-
+    void setEntitiyPositionModeFixedOnObject(glm::vec2 pos) { m_EmitModeA->setEntityPositionModeA(pos); }
+    bool isFixedOnObjectMode()const { return m_EmitModeA != nullptr; }
 
     ParticleData* m_ParticleData = nullptr;
 
@@ -102,7 +103,10 @@ private:
 
     struct EmitModeA { // Fixed on object.
 
+        glm::vec2 m_EntityPosition; // Simulate position of the object.
+    
 
+        void setEntityPositionModeA(glm::vec2 pos) { m_EntityPosition = pos; }
     };
 
     struct EmitModeB { // Fixed to space.
