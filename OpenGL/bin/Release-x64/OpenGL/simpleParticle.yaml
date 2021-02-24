@@ -5,7 +5,7 @@ colorBegin: [1, 1, 1, 1]
 colorEnd: [1, 1, 0, 1]
 lifeTime: 3
 sizeBegin: 0.07
-sizeEnd: 0.001
+sizeEnd: 0.00001
 sizeVar: 0.05
 rotation: 50
 rotationVar: 25

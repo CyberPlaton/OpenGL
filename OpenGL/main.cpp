@@ -30,6 +30,7 @@ int g_WindowWidth = 1024;
 const std::string planeTexture = "Stone_Wall.dds";
 const std::string crateTexture = "crate_diffuse.png";
 static float g_FPS = 0.0f;
+static bool g_Emit = false;
 
 /*
 OrbitCamera* g_pOrbitCamera = NULL;
@@ -476,12 +477,15 @@ int main(){
         assassin->Draw();
 
 
-
         for (auto it : pSystems) {
-            it->onUpdate(1/g_FPS, g_pFPSCamera.GetPos());
 
-            for (int i = 0; i < 4; i++) {
-                it->emit();
+            it->onUpdate(1 / g_FPS, g_pFPSCamera.GetPos());
+
+            if (g_Emit) {
+
+                for (int i = 0; i < 4; i++) {
+                    it->emit();
+                }
             }
 
             it->onRender();
@@ -703,6 +707,12 @@ void Update(double d){
 
     glfwSetCursorPos(g_pWindow, g_WindowWidth / 2.0, g_WindowHeight / 2.0);
 
+
+    // Particles.
+    if (glfwGetKey(g_pWindow, GLFW_KEY_SPACE) == GLFW_PRESS) {
+
+        g_Emit = !g_Emit;
+    }
 
     // Camera movement.
     if (glfwGetKey(g_pWindow, GLFW_KEY_W) == GLFW_PRESS) {

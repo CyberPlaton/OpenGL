@@ -27,14 +27,18 @@ void ParticleSystem::onUpdate(float dt, glm::vec3 camerPos) {
 		if (particle.m_LifeRemaining <= 0.0f)
 		{
 			particle.m_Active = false;
+			particle.m_CurrentLifeTime = 0.0f;
+			particle.m_LifeRemaining = 0.0f;
 			continue;
 		}
 
-		particle.m_LifeRemaining -= dt;
+		particle.m_LifeRemaining = (particle.m_LifeRemaining - dt < 0.0f) ? 0.0f : particle.m_LifeRemaining -= dt;
+
 		particle.m_Position += particle.m_Velocity * (float)dt;
 		particle.m_Rotation += 0.01f * dt;
 	}
 }
+
 
 void ParticleSystem::onRender() {
 
@@ -45,7 +49,7 @@ void ParticleSystem::onRender() {
 			continue;
 
 		// Fade away particles
-		float life = particle.m_LifeRemaining / particle.m_LifeTime;
+		float life = particle.m_LifeRemaining / particle.m_CurrentLifeTime;
 
 
 		//glm::vec4 color = glm::mix(particle.m_ColorEnd, particle.m_ColorBegin, life);
@@ -122,8 +126,8 @@ void ParticleSystem::emit() {
 	particle.m_ColorBegin = m_ParticleData->m_ColorBegin;
 	particle.m_ColorEnd = m_ParticleData->m_ColorEnd;
 
-	particle.m_LifeTime = m_ParticleData->m_LifeTime;
-	particle.m_LifeRemaining = m_ParticleData->m_LifeTime;
+	particle.m_CurrentLifeTime = m_ParticleData->m_MaxLifeTime;
+	particle.m_LifeRemaining = m_ParticleData->m_MaxLifeTime;
 	particle.m_SizeBegin = m_ParticleData->m_SizeBegin + m_ParticleData->m_SizeVariation * (Random::Float() - 0.5f);
 	particle.m_SizeEnd = m_ParticleData->m_SizeEnd;
 
@@ -183,7 +187,7 @@ ParticleSystem* ParticleSystem::createFromFile(std::string file) {
 
 		ps->m_ParticleData->m_ColorEnd = glm::vec4(node["colorEnd"][0].as<float>(), node["colorEnd"][1].as<float>(), node["colorEnd"][2].as<float>(), node["colorEnd"][3].as<float>());
 
-		ps->m_ParticleData->m_LifeTime = node["lifeTime"].as<float>();
+		ps->m_ParticleData->m_MaxLifeTime = node["lifeTime"].as<float>();
 
 		ps->m_ParticleData->m_SizeBegin = node["sizeBegin"].as<float>();
 

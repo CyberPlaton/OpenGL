@@ -38,7 +38,7 @@ struct ParticleData {
 
     glm::vec2 m_Position, m_Velocity, m_VelocityVariation;
     glm::vec4 m_ColorBegin, m_ColorEnd;
-    float m_LifeTime;
+    float m_MaxLifeTime;
     float m_SizeBegin, m_SizeEnd, m_SizeVariation;
     float m_Rotation;
     float m_RotationVariation;
@@ -55,7 +55,7 @@ public:
             float m_Rotation = 0.0f;
             float m_SizeBegin, m_SizeEnd;
 
-            float m_LifeTime = 1.0f;
+            float m_CurrentLifeTime = 1.0f;
             float m_LifeRemaining = 0.0f;
 
             bool m_Active = false;
