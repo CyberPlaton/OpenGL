@@ -60,6 +60,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\Users\Bogdan Strohonov\Desktop\OpenGL\OpenGL\OpenGL\Common\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -77,6 +78,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\Users\Bogdan Strohonov\Desktop\OpenGL\OpenGL\OpenGL\Common\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -89,6 +91,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Batch.cpp" />
+    <ClCompile Include="Entity.cpp" />
     <ClCompile Include="ParticleSystem.cpp" />
     <ClCompile Include="Script.cpp" />
     <ClCompile Include="Sprite.cpp" />
@@ -102,6 +105,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Batch.h" />
+    <ClInclude Include="Entity.h" />
     <ClInclude Include="ParticleSystem.h" />
     <ClInclude Include="Script.h" />
     <ClInclude Include="Sprite.h" />

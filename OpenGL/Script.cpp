@@ -55,44 +55,21 @@ bool LuaBinding::_validate(lua_State* L, int r, std::string errorBuffer) {
 }
 
 
-bool LuaBinding::execute(std::string script) {
+bool LuaBinding::execute(Script script) {
+
+	using namespace std;
+	std::string errorBuffer;
+
+	if (_validate(g_pLua->m_LuaState, luaL_dofile(g_pLua->m_LuaState, script.m_Path.c_str()), errorBuffer)) {
 
 
-	// Example, not final!
-
-	int result = luaL_dofile(g_pLua->m_LuaState, script.c_str());
-	std::string rBuffer;
-	if (_validate(g_pLua->m_LuaState, result, rBuffer)) {
-
-
-		lua_getglobal(g_pLua->m_LuaState, "add"); // pop function result value to stack top.
-
-
-		if (lua_isfunction(g_pLua->m_LuaState, -1)) {
-
-			lua_pushnumber(g_pLua->m_LuaState, 0.1f);
-			lua_pushnumber(g_pLua->m_LuaState, 0.9f);
-
-
-			if (_validate(g_pLua->m_LuaState, lua_pcall(g_pLua->m_LuaState, 2, 1, 0), rBuffer)) {
-
-				using namespace std;
-				cout << color(colors::GREEN);
-				cout << "doSomething result = " << (float)lua_tonumber(g_pLua->m_LuaState, -1) << white << endl;
-
-
-				return true;
-			}
-			else {
-
-				using namespace std;
-				cout << color(colors::RED);
-				cout << "Script Error: " << rBuffer << white << endl;
-			}
-		}
+		return true;
 	}
+	else {
 
-
-	return false;
+		cout << color(colors::RED);
+		cout << "Script Error in \"" << script.m_Path << "\" :\n" << errorBuffer << white << endl;
+		return false;
+	}
 }
 
