@@ -18,9 +18,8 @@
 #include"Sprite.h"
 #include"ParticleSystem.h"
 #include"Script.h"
+#include"Scene.h"
 #include"Entity.h"
-
-#include"yaml-cpp/yaml.h"
 
 
 const char* APP_TITLE = "OpenGL Training";
@@ -83,16 +82,45 @@ int main(){
     g_Lua->execute(*new Script("simpleScript.lua"));
 
 
-    Unit* unit = new Unit("Bogdan");
+    Scene* mainScene = new Scene("Main Scene");
+    mainScene->createEntity("Bogdan");
+    mainScene->createEntity("Katharina");
+    mainScene->createEntity("Walter");
+    mainScene->createEntity("Fred");
+    mainScene->createEntity("Peter");
+    mainScene->createEntity("Anatoli");
+    mainScene->createEntity("Frank-Walter");
+
+
+
+
     using namespace std;
     cout << color(colors::CYAN);
-    cout << "Unit: " << unit->m_Name << endl;
-    cout << "ID: " << (uint32_t)unit << endl;
+    auto view = mainScene->getRegistry()->m_EntityRegistry.view<ComponentID>();
 
-    unit->addComponent<TransformComponent>();
+    for (auto entity : view) {
 
-    cout << "Transform: " << unit->getComponent<TransformComponent>().x << unit->getComponent<TransformComponent>().y << white << endl;
- 
+        auto& id = view.get<ComponentID>(entity);
+
+        cout << "Tag: " << id.m_Tag <<",    ";
+        cout << "ID: " << id.m_ID << endl;
+    }
+
+    auto view2 = mainScene->getEnttView<ComponentID>();
+    for (auto entity : view2) {
+
+        auto& id = view2.get<ComponentID>(entity);
+
+        cout << "Tag: " << id.m_Tag << ",    ";
+        cout << "ID: " << id.m_ID << endl;
+    }
+
+    cout << white << endl;
+
+    SceneSerializer::serialize(mainScene, "MainScene.scene");
+
+
+    return 0;
 
     // Testing yaml setup.
     

@@ -1,0 +1,30 @@
+Scene: Main Scene
+Entities:
+  - Entity: 6
+    ComponentID:
+      Tag: Frank-Walter
+      ID: 6
+  - Entity: 5
+    ComponentID:
+      Tag: Anatoli
+      ID: 5
+  - Entity: 4
+    ComponentID:
+      Tag: Peter
+      ID: 4
+  - Entity: 3
+    ComponentID:
+      Tag: Fred
+      ID: 3
+  - Entity: 2
+    ComponentID:
+      Tag: Walter
+      ID: 2
+  - Entity: 1
+    ComponentID:
+      Tag: Katharina
+      ID: 1
+  - Entity: 0
+    ComponentID:
+      Tag: Bogdan
+      ID: 0
