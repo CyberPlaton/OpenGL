@@ -59,25 +59,14 @@ void render2DScene();
 void render3DScene();
 
 
-// Lua callable functions.
-int luaDoSomething(lua_State* L) {
 
-    float a = (float)lua_tonumber(L, 1);
-    float b = (float)lua_tonumber(L, 2);
-
-    float c = std::sin(a + b);
-
-    lua_pushnumber(L, c); // Push result back to stack.
-
-    return 1;
-}
 
 
 int main(){
 
     using namespace std;
-    cout << color(colors::DARKBLUE);
-    cout << "Program running...\n\n" << white;
+    std::cout << color(colors::DARKBLUE);
+    std::cout << "Program running...\n\n" << white;
 
     // Initialize opengl, window and glfw.
     if (!InitOpenGL()) {
@@ -92,6 +81,7 @@ int main(){
         float power;
     };
 
+    /*
     lua_State* luaState = luaL_newstate();
     luaL_openlibs(luaState); // Open/Allow mostly used and default lua libraries, like math.
 
@@ -101,7 +91,18 @@ int main(){
 
     // Link function to lua virtual machine.
     lua_register(luaState, "doSomething", luaDoSomething); // Just like we mapped in command handler...
+    */
 
+    LuaBinding* g_Lua = LuaBinding::get();
+    
+    // If we want to provide host functions for LUA environment, we have to
+    // provide a LuaFunctionBindingMap object with approptiate function definitions.
+    g_Lua->startUp(nullptr);
+    g_Lua->execute("simpleScript.lua");
+
+    return 0;
+
+    /*
     if (validateScriptResult(luaState, result, rBuffer)) {
 
         lua_getglobal(luaState, "doSomething"); // pop function result value to stack top.
@@ -126,6 +127,7 @@ int main(){
             }
         }
     }
+    */
 
     // Lua functions.
     /*
@@ -339,17 +341,16 @@ int main(){
     */
 
 
-    return 0;
-
 
     // Testing yaml setup.
+    
     YAML::Node config = YAML::LoadFile("config.yaml");
 
-    cout << color(colors::CYAN);
-    cout << "host: " << config["host"].as<std::string>() << endl;
-    cout << "port: " << config["port"].as<int>() << endl;
-    cout << "password: " << config["password"].as<std::string>() << endl;
-    cout << "servicename: " << config["servicename"].as<std::string>() << white << endl;
+    std::cout << color(colors::CYAN);
+    std::cout << "host: " << config["host"].as<std::string>() << std::endl;
+    std::cout << "port: " << config["port"].as<int>() << endl;
+    std::cout << "password: " << config["password"].as<std::string>() << std::endl;
+    std::cout << "servicename: " << config["servicename"].as<std::string>() << white << std::endl;
 
 
     ParticleSystem* p = ParticleSystem::createFromFile("simpleParticle.yaml");
