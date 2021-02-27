@@ -120,8 +120,6 @@ int main(){
     SceneSerializer::serialize(mainScene, "MainScene.scene");
 
 
-    return 0;
-
     // Testing yaml setup.
     
     YAML::Node config = YAML::LoadFile("config.yaml");
@@ -528,6 +526,17 @@ int main(){
         assassin->SetScale(0.2f);
         assassin->SetPosition(glm::vec2(0.5f, 0.5f));
         assassin->Draw();
+
+
+        for (int i = 0; i < 1000; i++) {
+            assassin->SetPosition(glm::vec2(Random::Float() * 2.0f - 1.0f, Random::Float() * 2.0f - 1.0f));
+            assassin->SetScale(Random::Float() * 2.0f);
+            assassin->SetColor(glm::vec3(Random::Float(), Random::Float(), Random::Float()));
+            assassin->Draw();
+        }
+
+
+
 
         for (auto it : pSystems) {
 
