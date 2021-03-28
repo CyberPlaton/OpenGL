@@ -321,6 +321,8 @@ int main(){
 
         // Projection matrix.
         projection = glm::perspective(glm::radians(g_pFPSCamera.GetFieldOfView()), (float)g_WindowWidth/g_WindowHeight, 0.1f, 1000.0f);
+        projection = glm::ortho(0, g_WindowWidth, g_WindowHeight, 0, -1, 1);
+        view = glm::lookAt(glm::vec3(0.0f, 0.0f, 100.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
 
         glm::vec3 viewPos;
@@ -499,7 +501,12 @@ int main(){
 
 
         // Special for drawing 2D.
-        render2DScene();
+        //render2DScene();
+
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glEnable(GL_BLEND);
+        glDisable(GL_CULL_FACE);
+        glDisable(GL_DEPTH_TEST);
 
         static float r = 0.0f, g = 1.0f, b = 0.5f;
         r = (r >= 1.0f) ? 0.0f : r += 0.01f;
@@ -530,7 +537,7 @@ int main(){
 
         for (int i = 0; i < 1000; i++) {
             assassin->SetPosition(glm::vec2(Random::Float() * 2.0f - 1.0f, Random::Float() * 2.0f - 1.0f));
-            assassin->SetScale(Random::Float() * 2.0f);
+            assassin->SetScale(Random::Float()*0.01f);
             assassin->SetColor(glm::vec3(Random::Float(), Random::Float(), Random::Float()));
             assassin->Draw();
         }
@@ -555,7 +562,7 @@ int main(){
 
 
         // Go back to drawing 3D.
-        render3DScene();
+        //render3DScene();
 
 
         glfwSwapBuffers(g_pWindow); // Double buffered application.
@@ -701,7 +708,7 @@ bool InitOpenGL() {
 
 
     // Set clear color.
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glClearColor(0.2f, 0.7f, 0.2f, 1.0f);
 
     // Init viewport.
     glViewport(0, 0, g_WindowWidth, g_WindowHeight); // Defines where to draw to..
