@@ -1,4 +1,5 @@
 # OpenGL
+Blinn-Phong Lighting model. Forward Shading.
 
 ## Current State
 ![alttext](https://github.com/CyberPlaton/OpenGL/blob/master/ref_1.png)
